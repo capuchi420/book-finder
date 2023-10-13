@@ -23,7 +23,7 @@ const Container = styled.div`
         
         input{
             width: calc(100% - 36.813px);
-            font-size: .6rem;
+            font-size: .8rem;
             padding: 1rem;
             background: none;
             border: none;
