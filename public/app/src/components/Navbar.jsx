@@ -16,4 +16,12 @@ const Container = styled.div`
     h4{
         font-family: 'Caveat', cursive;
     }
+
+    @media only screen and (min-width: 768px){
+        padding: 1rem 2rem;
+    }
+
+    @media only screen and (min-width: 1366px){
+        padding: 1rem 12.5rem;
+    }
 `

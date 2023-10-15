@@ -9,6 +9,22 @@ export const Cards = () => {
             <Card/>
             <Card/>
             <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
         </Container>
     );
 }
@@ -19,4 +35,19 @@ const Container = styled.main`
     grid-template-columns: repeat(2, 50%);
     row-gap: 1rem;
     justify-items: center;
+
+    @media only screen and (min-width: 768px){
+        grid-template-columns: repeat(4, 25%);
+        margin: .5rem 2rem 2.5rem;
+        row-gap: 2rem;
+    }
+
+    @media only screen and (min-width: 1366px){
+        margin: .5rem 12.5rem 2.5rem;
+        row-gap: 2.5rem;
+    }
+
+    @media only screen and (min-width: 1920px){
+        row-gap: 3rem;
+    }
 `;

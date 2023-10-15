@@ -25,7 +25,7 @@ const Container = styled.div`
     div.img-holder{
         img{
             height: 110px;
-            width: 100%;
+            width: 115px;
             border-radius: .7rem;
         }
     }
@@ -38,5 +38,32 @@ const Container = styled.div`
         background-color: #f8f0e5;
         padding: .5rem 1rem;
         font-size: 1rem;
+    }
+
+    @media only screen and (min-width: 375px) and (max-width: 767px){
+        div.img-holder{
+            img{
+                height: 139px;
+                width: 144px;
+            }
+        }
+    }
+
+    @media only screen and (min-width: 1366px){
+        div.img-holder{
+            img{
+                height: 187px;
+                width: 192px;
+            }
+        }
+    }
+
+    @media only screen and (min-width: 1920px){
+        div.img-holder{
+            img{
+                height: 319px;
+                width: 324px;
+            }
+        }
     }
 `

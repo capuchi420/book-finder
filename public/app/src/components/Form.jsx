@@ -41,4 +41,19 @@ const Container = styled.div`
             }
         }
     }
+
+    @media only screen and (min-width: 768px){
+        margin-left: 13.5rem;
+        margin-right: 13.5rem;
+    }
+
+    @media only screen and (min-width: 1366px){
+        margin-left: 28.22rem;
+        margin-right: 28.22rem;
+    }
+
+    @media only screen and (min-width: 1920px){
+        margin-left: 37.75rem;
+        margin-right: 37.75rem;
+    }
 `
