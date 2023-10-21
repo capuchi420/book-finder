@@ -1,15 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
-export const Card = () => {
+export const Card = (props) => {
+    console.log(props)
+
     return(
         <Container>
             <div className="img-holder">
                 <img src="assets/img.jpg" alt="Book Image" />
             </div>
             <div className="desc">
-                <h4>Naziv Dela</h4>
-                <h6>Autor</h6>
+                <h4>{props.book_name}</h4>
+                <h6>{props.book_author}</h6>
             </div>
             <button>Read More</button>
         </Container>

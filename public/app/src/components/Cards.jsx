@@ -1,30 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "./Card";
 import styled from "styled-components";
 
 export const Cards = () => {
+    const [books, setBooks] = useState([]);
+
+    useEffect(() => {
+        const getAllBooks = async () => {
+            fetch('http://localhost:7777/db/getAllBooks').then(response => response.json()).then(data => setBooks(data));
+        }
+
+        getAllBooks();
+    }, []);
+
     return(
         <Container>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
+            {books.map(book => {
+                return <Card key={book._id} {...book} />;
+            })}
         </Container>
     );
 }
