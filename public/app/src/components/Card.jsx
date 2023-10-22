@@ -1,19 +1,24 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export const Card = (props) => {
-    console.log(props)
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/book/${props._id}`);
+    }
 
     return(
         <Container>
             <div className="img-holder">
-                <img src="assets/img.jpg" alt="Book Image" />
+                <img src={props.book_img_url} alt="Book Image" />
             </div>
             <div className="desc">
                 <h4>{props.book_name}</h4>
                 <h6>{props.book_author}</h6>
             </div>
-            <button>Read More</button>
+            <button onClick={handleClick}>Read More</button>
         </Container>
     );
 }

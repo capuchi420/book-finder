@@ -1,18 +1,16 @@
 import React from "react";
-import { Navbar } from "./components/Navbar";
-import { Header } from "./components/Header";
-import { Form } from "./components/Form";
-import { Cards } from "./components/Cards";
-import { Footer } from "./components/Footer";
+import { Home } from "./pages/Home";
+import { Book } from "./pages/Book";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 
 export const App = () => {
   return(
-    <>
-      <Navbar />
-      <Header />
-      <Form />
-      <Cards/>
-      <Footer />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/book/:id" element={<Book />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
