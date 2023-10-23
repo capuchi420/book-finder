@@ -8,3 +8,13 @@ export const getAllBooks = async (req, res) => {
         res.send(err);
     }
 };
+
+export const getABook = async (req, res) => {
+    try{
+        const id = req.params._id;
+        const book = await bookModel.findById(id);
+        res.send(book);
+    }catch(err){
+        res.send(err)
+    }
+}
