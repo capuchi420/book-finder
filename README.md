@@ -1,2 +1,3 @@
 # book-finder
-design done
+Home design done
+Book design in progress
