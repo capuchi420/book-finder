@@ -1,10 +1,17 @@
 import React from "react";
 import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/`);
+    }
+
     return(
         <Container>
-            <h4>FindYoBook</h4>
+            <h4 onClick={handleClick}>FindYoBook</h4>
         </Container>
     );
 }
@@ -15,6 +22,7 @@ const Container = styled.div`
 
     h4{
         font-family: 'Caveat', cursive;
+        cursor: pointer;
     }
 
     @media only screen and (min-width: 768px){
