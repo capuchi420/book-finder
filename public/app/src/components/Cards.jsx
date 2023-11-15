@@ -5,6 +5,15 @@ import styled from "styled-components";
 export const Cards = () => {
     const [books, setBooks] = useState([]);
 
+    const [cookie, setCookie] = useState(undefined);
+
+    useEffect(() => {
+        setCookie(document.cookie.slice(6, document.cookie.lenght));
+        document.cookie = `input=${cookie};expires=Thu, 01 Jan 1970 00:00:01 GMT`;
+    }, []);
+
+    console.log(cookie)
+
     useEffect(() => {
         const getAllBooks = async () => {
             fetch('http://localhost:7777/db/getAllBooks').then(response => response.json()).then(data => setBooks(data));
@@ -16,7 +25,13 @@ export const Cards = () => {
     return(
         <Container>
             {books.map(book => {
-                return <Card key={book._id} {...book} />;
+                if(cookie != "" || cookie != undefined){
+                    if(book.book_name.includes(cookie)){
+                        return <Card key={book._id} {...book} />;
+                    }
+                }else{
+                    return <Card key={book._id} {...book} />;
+                }
             })}
         </Container>
     );

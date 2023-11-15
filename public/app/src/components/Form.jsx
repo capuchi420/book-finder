@@ -2,9 +2,16 @@ import React from "react";
 import styled from "styled-components";
 
 export const Form = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const input = document.querySelector('input').value || undefined;
+        document.cookie = `input=${input}`;
+        window.location.reload();
+    }
+
     return(
         <Container>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <input type="text" placeholder="find yo damn book..." />
                 <button><i className="fa-solid fa-magnifying-glass"></i></button>
             </form>
@@ -56,4 +63,4 @@ const Container = styled.div`
         margin-left: 37.75rem;
         margin-right: 37.75rem;
     }
-`
+`;
