@@ -6,6 +6,9 @@ export const Navbar = () => {
     const navigate = useNavigate();
 
     const handleClick = () => {
+        const input = "";
+        document.cookie = `input=${input}`;
+        window.location.reload();
         navigate(`/`);
     }
 

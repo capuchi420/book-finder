@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const Form = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
-        const input = document.querySelector('input').value || undefined;
+        const input = document.querySelector('input').value || "";
         document.cookie = `input=${input}`;
         window.location.reload();
     }

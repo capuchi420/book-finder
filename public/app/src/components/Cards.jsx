@@ -9,7 +9,6 @@ export const Cards = () => {
 
     useEffect(() => {
         setCookie(document.cookie.slice(6, document.cookie.lenght));
-        document.cookie = `input=${cookie};expires=Thu, 01 Jan 1970 00:00:01 GMT`;
     }, []);
 
     console.log(cookie)
@@ -22,11 +21,18 @@ export const Cards = () => {
         getAllBooks();
     }, []);
 
+    function camelize(str) {
+        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+          if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+          return index === 0 ? match.toLowerCase() : match.toUpperCase();
+        });
+      }
+
     return(
         <Container>
             {books.map(book => {
-                if(cookie != "" || cookie != undefined){
-                    if(book.book_name.includes(cookie)){
+                if(cookie !== "" || cookie !== undefined){
+                    if(book.book_name.includes(cookie) || book.book_name.includes(cookie.toUpperCase()) || book.book_name.includes(cookie.toLowerCase()) || book.book_name.includes(camelize(cookie)) || book.book_name.includes(cookie.charAt(0).toUpperCase())){
                         return <Card key={book._id} {...book} />;
                     }
                 }else{
