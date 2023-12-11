@@ -14,7 +14,7 @@ export const Login = () => {
       </div>
       <form>
         <div className="username">
-            <input type="text" placeholder="username" />
+            <input type="text" placeholder="Username" />
         </div>
         <div className="password">
             <input type="password" placeholder="********" />
@@ -52,7 +52,7 @@ const Container = styled.div`
             text-align: center;
             color: #fff;
             font-family: 'Caveat', cursive;
-            font-size: 2.5rem;
+            font-size: 2rem;
         }
     }
 
@@ -64,6 +64,7 @@ const Container = styled.div`
 
         input{
             width: 70vw;
+            max-width: 800px;
             padding: 1rem 1rem;
             border: none;
             border-radius: .75rem;
@@ -105,6 +106,7 @@ const Container = styled.div`
         p{
             text-align: center;
             color: #fff;
+            font-size: .8rem;
 
             a{
                 color: #2591d8;
