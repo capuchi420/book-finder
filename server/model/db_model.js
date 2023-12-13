@@ -12,7 +12,10 @@ const schema = mongoose.Schema({
     book_img_url: {
         type: String,
         required: true
+    },
+    book_desc: {
+        type: String
     }
 });
 
-export const bookModel = new mongoose.model('books', schema);
+export const bookModel = mongoose.model('books', schema);

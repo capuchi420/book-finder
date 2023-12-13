@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
 import { dbRoutes } from './routes/db_routes.js';
+import { userRoutes } from './routes/userRoutes.js';
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/db', dbRoutes);
+app.use('/user', userRoutes);
 
 try{
     app.listen(process.env.PORT, () => {
