@@ -7,7 +7,7 @@ export const login = async (req, res) => {
 
         const isThereAUser = await userModel.findOne({username});
 
-        if(!isThereAUser) return res.json({status: false, msg: `User with username '${username} does not exist'`});
+        if(!isThereAUser) return res.json({status: false, msg: `User with username '${username}' does not exist`});
 
         const isPasswordRight = await bcrypt.compare(password, isThereAUser.password);
 
@@ -22,8 +22,11 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
     try{
-        const aaa = req.body;
         const {username, password, repeatPassword} = req.body;
+
+        console.log(username)
+        console.log(password)
+        console.log(repeatPassword)
 
         const isUsernameNotAvailable = await userModel.findOne({username});
 
@@ -31,7 +34,6 @@ export const register = async (req, res) => {
 
         if(password !== repeatPassword) return res.json({status: false, msg: "Passwords do not match"});
 
-        res.json({status: true, aaa});
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const createdUser = await userModel.create({
