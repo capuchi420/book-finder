@@ -5,6 +5,41 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const Login = () => {
+    const cookie = document.cookie;
+
+    if(cookie){
+       window.location.href = '/book' 
+    }
+
+    const [error, setError] = useState("");
+
+    const [login, setLogin] = useState({
+        username: "",
+        password: ""
+    });
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setError("");
+        fetch('http://localhost:7777/user/login', {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(login)
+        }).then(response => response.json()).then(data => {
+            if(!data.status){
+                setError(data.msg);
+            }else{
+                document.cookie = `_id=${data.isThereAUser._id}; expiers=Thu, 18 Dec 9999 12:00:00 UTC;`;
+                window.localtion.href = '/book';
+            }
+        });
+    }
+
+    const handleChange = (e) => {
+        setLogin(data => {
+            return {...data, [e.target.name]: e.target.value}
+        });
+    }
 
   return(
     <Container>
@@ -12,12 +47,13 @@ export const Login = () => {
       <div>
         <h1>Welcome back to the<br />Ljubitelji knjige!</h1>
       </div>
-      <form>
+      <form onSubmit={handleSubmit}>
+        <p className="error">{error}</p>
         <div className="username">
-            <input type="text" placeholder="Username" />
+            <input type="text" placeholder="Username" name="username" onChange={handleChange} />
         </div>
         <div className="password">
-            <input type="password" placeholder="********" />
+            <input type="password" placeholder="********" name="password" onChange={handleChange} />
         </div>
         <button>LOGIN</button>
         <p>Don't have an account? <Link to="/register">Register now!</Link></p>
@@ -107,6 +143,10 @@ const Container = styled.div`
             text-align: center;
             color: #fff;
             font-size: .8rem;
+
+            &.error{
+                color: #f33;
+            }
 
             a{
                 color: #2591d8;
