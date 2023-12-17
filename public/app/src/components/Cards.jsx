@@ -5,13 +5,13 @@ import styled from "styled-components";
 export const Cards = () => {
     const [books, setBooks] = useState([]);
 
-    const [cookie, setCookie] = useState(undefined);
-
-    useEffect(() => {
-        setCookie(document.cookie.slice(6, document.cookie.lenght));
-    }, []);
-
-    console.log(cookie)
+    const [search, setSearch] = useState({
+        based: "",
+        uppercase: "",
+        lowercase: "",
+        camel: "",
+        firstletter: ""
+    });
 
     useEffect(() => {
         const getAllBooks = async () => {
@@ -28,20 +28,95 @@ export const Cards = () => {
         });
       }
 
+      const handleChange = (e) => {
+        let value = e.target.value;
+        setSearch({
+            based: value,
+            uppercase: value.toUpperCase(),
+            lowercase: value.toLowerCase(),
+            camel: camelize(value),
+            firstletter: value.charAt(0).toUpperCase()
+        });
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        refreshPage();
+    }
+
+    function refreshPage() {
+        window.location.reload(true);
+      }
+
     return(
-        <Container>
-            {books.map(book => {
-                if(cookie !== "" || cookie !== undefined){
-                    if(book.book_name.includes(cookie) || book.book_name.includes(cookie.toUpperCase()) || book.book_name.includes(cookie.toLowerCase()) || book.book_name.includes(camelize(cookie)) || book.book_name.includes(cookie.charAt(0).toUpperCase())){
-                        return <Card key={book._id} {...book} />;
+        <main>
+            <Form>
+                <form onSubmit={handleSubmit}>
+                    <input type="text" placeholder="find yo damn book..." onChange={handleChange} value={search.based} />
+                    <button><i className="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </Form>
+            <Container id="books">
+                {books.map(book => {
+                    if(book.book_name.includes(search.based) || book.book_name.includes(search.uppercase) || book.book_name.includes(search.lowercase) || book.book_name.includes(search.camel) || book.book_name.includes(search.firstletter)){
+                        return <Card key={book._id} {...book} style={{display: "block"}} />;
+                    }else{
+                        if(search.based !== ""){
+                            return <Card key={book._id} {...book} style={{display: "none"}}/>;
+                        }
+                        return <Card key={book._id} {...book} style={{display: "block"}}/>;
                     }
-                }else{
-                    return <Card key={book._id} {...book} />;
-                }
-            })}
-        </Container>
+                })}
+            </Container>
+        </main>
     );
 }
+
+const Form = styled.div`
+    padding: 0 1rem 2.3rem;
+
+form{
+    padding: .5rem 1rem .5rem 0;
+    border-radius: .6rem;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,.3);
+    display: flex;
+    
+    input{
+        width: calc(100% - 36.813px);
+        font-size: .8rem;
+        padding: 1rem;
+        background: none;
+        border: none;
+
+        &:focus{
+            outline: none;
+        }
+    }
+
+    button{
+        background: none;
+        border: none;
+        i{
+            font-size: 2.3rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 768px){
+    margin-left: 13.5rem;
+    margin-right: 13.5rem;
+}
+
+@media only screen and (min-width: 1366px){
+    margin-left: 28.22rem;
+    margin-right: 28.22rem;
+}
+
+@media only screen and (min-width: 1920px){
+    margin-left: 37.75rem;
+    margin-right: 37.75rem;
+}
+`
 
 const Container = styled.main`
     display: grid;
