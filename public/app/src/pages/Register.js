@@ -3,8 +3,47 @@ import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
+    const cookie = document.cookie;
+
+    if(cookie){
+       window.location.href = '/book' 
+    }
+
+    const navigate = useNavigate();
+
+    const [error, setError] = useState("");
+
+    const [register, setRegister] = useState({
+        username: "",
+        password: "",
+        repeatPassword: ""
+    });
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setError("");
+        fetch('http://localhost:7777/user/register', {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(register)
+        }).then(response => response.json()).then(data => {
+            if(!data.status){
+                setError(data.msg);
+            }else{
+                document.cookie = `_id=${data.createdUser._id}; expiers=Thu, 18 Dec 9999 12:00:00 UTC;`;
+                navigate('/book')
+            }
+        });
+    }
+
+    const handleChange = (e) => {
+        setRegister(data => {
+            return {...data, [e.target.name]: e.target.value}
+        });
+    }
 
   return(
     <Container>
@@ -12,15 +51,16 @@ export const Register = () => {
       <div>
         <h1>Welcome to the<br />Ljubitelji knjige!<br />Please make an account to access the biggest book community on the internet!</h1>
       </div>
-      <form>
+      <form onSubmit={handleSubmit}>
+        <p className="error">{error}</p>
         <div className="username">
-            <input type="text" placeholder="Username" />
+            <input name="username" type="text" placeholder="Username" onChange={handleChange} />
         </div>
         <div className="password">
-            <input type="password" placeholder="Password" />
+            <input name="password" type="password" placeholder="Password" onChange={handleChange} />
         </div>
-        <div className="password">
-            <input type="password" placeholder="Repeat password" />
+        <div className="repeatPassword">
+            <input name="repeatPassword" type="password" placeholder="Repeat password" onChange={handleChange} />
         </div>
         <button>REGISTER</button>
         <p>Already have an account? <Link to="/">Login now!</Link></p>
@@ -110,6 +150,10 @@ const Container = styled.div`
             text-align: center;
             color: #fff;
             font-size: .8rem;
+
+            &.error{
+                color: #f33;
+            }
 
             a{
                 color: #2591d8;

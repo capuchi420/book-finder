@@ -41,12 +41,11 @@ export const Cards = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        refreshPage();
     }
 
-    function refreshPage() {
-        window.location.reload(true);
-      }
+    const allBooks = books.map(book => {
+        return <Card key={book._id} {...book} />
+    });
 
     return(
         <main>
@@ -57,15 +56,10 @@ export const Cards = () => {
                 </form>
             </Form>
             <Container id="books">
-                {books.map(book => {
-                    if(book.book_name.includes(search.based) || book.book_name.includes(search.uppercase) || book.book_name.includes(search.lowercase) || book.book_name.includes(search.camel) || book.book_name.includes(search.firstletter)){
-                        return <Card key={book._id} {...book} style={{display: "block"}} />;
-                    }else{
-                        if(search.based !== ""){
-                            return <Card key={book._id} {...book} style={{display: "none"}}/>;
-                        }
-                        return <Card key={book._id} {...book} style={{display: "block"}}/>;
-                    }
+                {search.based === "" ? allBooks : books.map(book => {
+                                                                if(book.book_name.includes(search.based) || book.book_name.includes(search.uppercase) || book.book_name.includes(search.lowercase) || book.book_name.includes(search.camel) || book.book_name.includes(search.firstletter)){
+                                                                    return <Card key={book._id} {...book} />;
+                                                                }
                 })}
             </Container>
         </main>

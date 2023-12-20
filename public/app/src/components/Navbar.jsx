@@ -6,10 +6,11 @@ export const Navbar = () => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        const input = "";
-        document.cookie = `input=${input}`;
-        window.location.reload();
-        navigate(`/`);
+        if(window.location.href === 'http://localhost:3000/book'){
+            window.location.reload(true);
+        }else{
+            navigate(`/book`);
+        }
     }
 
     return(

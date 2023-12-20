@@ -4,6 +4,12 @@ import { Footer } from "../components/Footer";
 import styled from "styled-components";
 
 export const Book = () => {
+  const cookie = document.cookie;
+
+  if(!cookie){
+     window.location.href = '/';
+  }
+  
   const [book, setBook] = useState(null);
 
   useEffect(() => {

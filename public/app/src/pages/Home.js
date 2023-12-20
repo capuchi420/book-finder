@@ -5,6 +5,12 @@ import { Cards } from "../components/Cards";
 import { Footer } from "../components/Footer";
 
 export const Home = () => {
+  const cookie = document.cookie;
+
+  if(!cookie){
+     window.location.href = '/';
+  }
+
   return(
     <>
       <Navbar />
