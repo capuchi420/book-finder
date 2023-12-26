@@ -22,8 +22,6 @@ export const Book = () => {
     getABook();
   }, []);
 
-  console.log(book)
-
   return(
     <>
       <Navbar />

@@ -13,9 +13,14 @@ export const Navbar = () => {
         }
     }
 
+    const handleProfileClick = () => {
+        navigate(`/profile/${document.cookie.slice(4, document.cookie.length)}`)
+    }
+
     return(
         <Container>
             <h4 onClick={handleClick}>FindYoBook</h4>
+            <i className="fa-solid fa-user" onClick={handleProfileClick}></i>
         </Container>
     );
 }
@@ -23,9 +28,15 @@ export const Navbar = () => {
 const Container = styled.div`
     background-color: #F8F0E5;
     padding: 1rem;
+    display: flex;
+    justify-content: space-between;
 
     h4{
         font-family: 'Caveat', cursive;
+        cursor: pointer;
+    }
+
+    i{
         cursor: pointer;
     }
 

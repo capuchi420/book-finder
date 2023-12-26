@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-export const Header = () => {
+export const Header = (props) => {
     return (
         <Container>
-            <h1>Find Yo BooK Here! More than 10 books are on out website! Check it out!!</h1>
+            <h1>{props.txt}</h1>
         </Container>
     );
 }

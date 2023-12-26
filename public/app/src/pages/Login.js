@@ -3,6 +3,7 @@ import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
     const cookie = document.cookie;
@@ -10,6 +11,8 @@ export const Login = () => {
     if(cookie){
        window.location.href = '/book' 
     }
+
+    const navigate = useNavigate();
 
     const [error, setError] = useState("");
 
@@ -30,7 +33,7 @@ export const Login = () => {
                 setError(data.msg);
             }else{
                 document.cookie = `_id=${data.isThereAUser._id}; expiers=Thu, 18 Dec 9999 12:00:00 UTC;`;
-                window.localtion.href = '/book';
+                navigate('/book');
             }
         });
     }

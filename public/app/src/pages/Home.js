@@ -14,7 +14,7 @@ export const Home = () => {
   return(
     <>
       <Navbar />
-      <Header />
+      <Header txt="Find Yo BooK Here! More than 10 books are on out website! Check it out!!" />
       <Cards/>
       <Footer />
     </>

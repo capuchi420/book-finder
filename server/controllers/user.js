@@ -49,3 +49,13 @@ export const register = async (req, res) => {
         res.json({status: false, msg: 'Error'});
     }
 }
+
+export const getUser = async (req, res) => {
+    try{
+        const id = req.params.id;
+        const user = await userModel.findById(id);
+        res.json({status: true, user});
+    }catch(err){
+        res.json({status: false, msg: 'Error'});
+    }
+}
