@@ -3,9 +3,9 @@ import { bookModel } from "../model/db_model.js";
 export const getAllBooks = async (req, res) => {
     try{
         const books = await bookModel.find();
-        res.send(books);
+        return res.json(books);
     }catch(err){
-        res.send(err);
+        return res.json(err);
     }
 };
 
@@ -13,8 +13,8 @@ export const getABook = async (req, res) => {
     try{
         const id = req.params._id;
         const book = await bookModel.findById(id);
-        res.send(book);
+        return res.json(book);
     }catch(err){
-        res.send(err)
+        return res.json(err)
     }
 }

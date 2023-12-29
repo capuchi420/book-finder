@@ -8,6 +8,15 @@ const schema = mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    wantToRead: {
+        type: Array
+    },
+    reading:{
+        type: Array
+    },
+    read: {
+        type: Array
     }
 });
 

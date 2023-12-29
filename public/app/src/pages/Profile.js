@@ -18,6 +18,7 @@ export const Profile = () => {
         const id = document.location.pathname.split('/')[2];
 
         fetch(`http://localhost:7777/user/getUser/${id}`).then(response => response.json()).then(data => {
+            console.log(data.user)
             setUser(data.user);
         });
     }

@@ -11,16 +11,49 @@ export const Book = () => {
   }
   
   const [book, setBook] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const getABook = async () => {
-      const id = document.location.pathname.split('/')[2];
+      const book_id = document.location.pathname.split('/')[2];
       
-      fetch(`http://localhost:7777/db/getABook/${id}`).then(response => response.json()).then(data => setBook(data));
+      fetch(`http://localhost:7777/db/getABook/${book_id}`).then(response => response.json()).then(data => setBook(data));
     }
 
     getABook();
+
+    const getUser = async () => {
+      const user_id = document.cookie.slice(4, document.cookie.length);
+
+      fetch(`http://localhost:7777/user/getUser/${user_id}`).then(response => response.json()).then(data => {
+          setUser(data.user);
+      });
+  }
+
+  getUser();
   }, []);
+
+  const handleWTR = async (e) => {
+    e.preventDefault();
+
+    let dataToSend = {
+      book_id: book._id,
+      user_id: user._id
+    };
+
+    fetch('http://localhost:7777/user/addWantToRead', {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataToSend)
+    }).then(response => response.json()).then(data => {
+      if(data.status){
+        console.log(data.user);
+        alert('Book added on the list "Want to read"');
+      }else{
+        alert(data.msg);
+      }
+    })
+  }
 
   return(
     <>
@@ -34,7 +67,7 @@ export const Book = () => {
           <section>
             <h1>{book.book_name}</h1>
             <h3>{book.book_author}</h3>
-            <button id="wtr">Want to read</button>
+            <button id="wtr" onClick={handleWTR}>Want to read</button>
             <button id="r">Reading</button>
             <button id="sr">Stopped reading</button>
           </section>
