@@ -64,19 +64,26 @@ export const addWantToRead = async (req, res) => {
     try{
         const { book_id, user_id } = req.body;
 
+        let found = false;
+
         let user = await userModel.findById(user_id);
 
         user.wantToRead.forEach(book => {
             if(book === book_id){
-                return res.send({ status: false, msg: 'Book is already on the list'})
+                fount = true;
             }
         })
 
-        user.wantToRead.push(book_id);
+        if(found){
+            return res.json({ status: false, msg: 'Book is already on the list'});
+        }else{
+            user.wantToRead.push(book_id);
 
-        await userModel.replaceOne({ _id: user_id}, user);
-        return res.send({ status: true, user});
+            await userModel.replaceOne({ _id: user_id}, user);
+            return res.json({ status: true, user});
+        }
+
     }catch(err){
-        return res.json({ status: false, err});
+        return res.json({ status: false, msg: 'Book is already on the list'});
     }
 }
