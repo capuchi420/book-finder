@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 export default function WTR_Card(props) {
+    console.log(props)
   return (
     <WantToRead>
         <h5>Wants to read</h5>
