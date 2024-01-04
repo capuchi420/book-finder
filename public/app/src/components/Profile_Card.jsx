@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function WTR_Card(props) {
-    console.log(props)
+export default function Profile_Card(props) {
   return (
     <WantToRead>
-        <h5>Wants to read</h5>
+        <h5>{props.txt}</h5>
         <div className="grid">
           <div className="one">
             <img src={props.books[0] === null ? "" : props.books[0]} />

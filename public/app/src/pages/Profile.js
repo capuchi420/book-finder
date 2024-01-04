@@ -4,7 +4,7 @@ import { Header } from "../components/Header";
 import { Cards } from "../components/Cards";
 import { Footer } from "../components/Footer";
 import styled from 'styled-components'
-import WTR_Card from "../components/WTR_Card";
+import Profile_Card from "../components/Profile_Card";
 
 export const Profile = () => {
   const cookie = document.cookie;
@@ -13,8 +13,15 @@ export const Profile = () => {
      window.location.href = '/';
   }
 
-  const [user, setUser] = useState([]);
-  const [books, setBooks] = useState(undefined);
+  const [username, setUsername] = useState("");
+  const [WTRuser, setWTRuser] = useState([]);
+  const [Ruser, setRuser] = useState([]);
+  const [ReadUser, setReadUser] = useState([]);
+
+  const [WTRbooks, setWTRbooks] = useState(undefined);
+  const [Rbooks, setRbooks] = useState(undefined);
+  const [ReadBooks, setReadBooks] = useState(undefined);
+
   const [show, setShow] = useState(false);
   
 
@@ -23,7 +30,11 @@ export const Profile = () => {
         const id = document.location.pathname.split('/')[2];
 
         fetch(`http://localhost:7777/user/getUser/${id}`).then(response => response.json()).then(data => {
-            setUser(data.user.wantToRead);
+          console.log(data)
+            setUsername(data.user.username);
+            setWTRuser(data.user.wantToRead);
+            setRuser(data.user.reading);
+            setReadUser(data.user.read);
         });
     }
 
@@ -32,13 +43,34 @@ export const Profile = () => {
       let update = [];
       fetch('http://localhost:7777/db/getAllBooks').then(response => response.json()).then(data => {
         for(let i = 0; i < data.length; i++){
-          for(let j = 0; j < user.length; j++){
-            if(data[i]._id === user[j]){
+          for(let j = 0; j < WTRuser.length; j++){
+            if(data[i]._id === WTRuser[j]){
               update.push(data[i].book_img_url);
             }
           }
         }
-        setBooks(update.reverse());
+        setWTRbooks(update.reverse());
+
+        update = [];
+        for(let i = 0; i < data.length; i++){
+          for(let j = 0; j < Ruser.length; j++){
+            if(data[i]._id === WTRuser[j]){
+              update.push(data[i].book_img_url);
+            }
+          }
+        }
+        setRbooks(update.reverse());
+
+        update = [];
+        for(let i = 0; i < data.length; i++){
+          for(let j = 0; j < ReadUser.length; j++){
+            if(data[i]._id === ReadUser[j]){
+              update.push(data[i].book_img_url);
+            }
+          }
+        }
+        setReadBooks(update.reverse());
+        
         setShow(true);
       });
     }
@@ -49,8 +81,10 @@ export const Profile = () => {
   return(
     <>
       <Navbar />
-      <Header txt={user.username} />
-      {show ? <WTR_Card books={books} /> : ""}
+      <Header txt={username} />
+      {show ? <Profile_Card txt="Wants to read" books={WTRbooks} /> : ""}
+      {show ? <Profile_Card txt="Reading" books={Rbooks} /> : ""}
+      {show ? <Profile_Card txt="Read" books={ReadBooks} /> : ""}
       <Footer />
     </>
   )
