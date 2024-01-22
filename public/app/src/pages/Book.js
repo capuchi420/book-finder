@@ -55,6 +55,28 @@ export const Book = () => {
     })
   }
 
+  const handleR = async (e) => {
+    e.preventDefault();
+
+    let dataToSend = {
+      book_id: book._id,
+      user_id: user._id
+    };
+
+    fetch('http://localhost:7777/user/addReading', {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataToSend)
+    }).then(response => response.json()).then(data => {
+      if(data.status){
+        console.log(data.user);
+        alert('Book added on the list "Reading"');
+      }else{
+        alert(data.msg);
+      }
+    })
+  }
+
   return(
     <>
       <Navbar />
@@ -67,8 +89,8 @@ export const Book = () => {
           <section>
             <h1>{book.book_name}</h1>
             <h3>{book.book_author}</h3>
-            <button id="wtr" onClick={handleWTR}>Want to read</button>
-            <button id="r">Reading</button>
+            <button id="wtr" onClick={handleWTR} >Want to read</button>
+            <button id="r" onClick={handleR} >Reading</button>
             <button id="sr">Stopped reading</button>
           </section>
         </main>

@@ -54,7 +54,7 @@ export const Profile = () => {
         update = [];
         for(let i = 0; i < data.length; i++){
           for(let j = 0; j < Ruser.length; j++){
-            if(data[i]._id === WTRuser[j]){
+            if(data[i]._id === Ruser[j]){
               update.push(data[i].book_img_url);
             }
           }

@@ -70,7 +70,7 @@ export const addWantToRead = async (req, res) => {
 
         user.wantToRead.forEach(book => {
             if(book === book_id){
-                fount = true;
+                found = true;
             }
         })
 
@@ -78,6 +78,34 @@ export const addWantToRead = async (req, res) => {
             return res.json({ status: false, msg: 'Book is already on the list'});
         }else{
             user.wantToRead.push(book_id);
+
+            await userModel.replaceOne({ _id: user_id}, user);
+            return res.json({ status: true, user});
+        }
+
+    }catch(err){
+        return res.json({ status: false, msg: 'Book is already on the list'});
+    }
+}
+
+export const addReading = async (req, res) => {
+    try{
+        const { book_id, user_id } = req.body;
+
+        let found = false;
+
+        let user = await userModel.findById(user_id);
+
+        user.reading.forEach(book => {
+            if(book === book_id){
+                found = true;
+            }
+        })
+
+        if(found){
+            return res.json({ status: false, msg: 'Book is already on the list'});
+        }else{
+            user.reading.push(book_id);
 
             await userModel.replaceOne({ _id: user_id}, user);
             return res.json({ status: true, user});
