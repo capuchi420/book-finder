@@ -115,3 +115,26 @@ export const addReading = async (req, res) => {
         return res.json({ status: false, msg: 'Book is already on the list'});
     }
 }
+
+export const removeWantToRead = async (req, res) => {
+    try{
+        const { book_id, user_id } = req.body;
+
+        let user = await userModel.findById(user_id);
+
+        let update = [];
+        
+        user.wantToRead.forEach(book => {
+            if(book !== book_id){
+                update.push(book);
+            }
+        });
+
+        user.wantToRead = update;
+
+        await userModel.replaceOne({ _id: user_id}, user);
+        return res.json({status: true, msg: "Removed", user});
+    }catch(err){
+        return res.json({ status: false, msg: 'Book removed from Want to read'});
+    }
+}

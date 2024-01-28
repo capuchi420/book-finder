@@ -10,14 +10,18 @@ export const Book = () => {
      window.location.href = '/';
   }
   
-  const [book, setBook] = useState(null);
-  const [user, setUser] = useState(null);
+  const [book, setBook] = useState({});
+  const [user, setUser] = useState({wantToRead: []});
+  const [isInWantToRead, setIsInWantToRead] = useState(false);
+  const [repeat, setRepeat] = useState(false);
 
   useEffect(() => {
     const getABook = async () => {
       const book_id = document.location.pathname.split('/')[2];
       
-      fetch(`http://localhost:7777/db/getABook/${book_id}`).then(response => response.json()).then(data => setBook(data));
+      fetch(`http://localhost:7777/db/getABook/${book_id}`).then(response => response.json()).then(data => {
+        setBook(data);
+      });
     }
 
     getABook();
@@ -27,12 +31,25 @@ export const Book = () => {
 
       fetch(`http://localhost:7777/user/getUser/${user_id}`).then(response => response.json()).then(data => {
           setUser(data.user);
+          setRepeat(true);
       });
+
   }
 
   getUser();
-  }, []);
 
+  const aa = async () => {
+    user.wantToRead.forEach(book_id => {
+      if(book_id === book._id){
+        setIsInWantToRead(true);
+      }
+    })
+  }
+  
+  aa();
+  }, [repeat]);
+  
+  
   const handleWTR = async (e) => {
     e.preventDefault();
 
@@ -47,12 +64,33 @@ export const Book = () => {
       body: JSON.stringify(dataToSend)
     }).then(response => response.json()).then(data => {
       if(data.status){
-        console.log(data.user);
-        alert('Book added on the list "Want to read"');
+        if(!alert('Book added on the list "Want to read"')){window.location.reload();};
       }else{
         alert(data.msg);
       }
     })
+  }
+
+  const handleRemoveFromWantToRead = async (e) => {
+    e.preventDefault();
+
+    let dataToSend = {
+      book_id: book._id,
+      user_id: user._id
+    };
+
+    fetch('http://localhost:7777/user/removeWantToRead', {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataToSend)
+    }).then(response => response.json()).then(data => {
+      if(data.status){
+        if(!alert(data.msg)){window.location.reload();}
+      }else{
+        alert(data.msg);
+      }
+    });
+    
   }
 
   const handleR = async (e) => {
@@ -89,7 +127,7 @@ export const Book = () => {
           <section>
             <h1>{book.book_name}</h1>
             <h3>{book.book_author}</h3>
-            <button id="wtr" onClick={handleWTR} >Want to read</button>
+            <button id="wtr" onClick={isInWantToRead ? handleRemoveFromWantToRead : handleWTR} >{isInWantToRead ? "Remove from Want to read" : "Want to read"}</button>
             <button id="r" onClick={handleR} >Reading</button>
             <button id="sr">Stopped reading</button>
           </section>
