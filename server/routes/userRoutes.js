@@ -1,5 +1,5 @@
 import express from 'express';
-import { addReading, addWantToRead, getUser, login, register, removeWantToRead } from '../controllers/user.js';
+import { addReading, addWantToRead, getUser, login, register, removeReading, removeWantToRead } from '../controllers/user.js';
 
 export const userRoutes = express.Router();
 
@@ -9,3 +9,4 @@ userRoutes.get('/getUser/:id', getUser);
 userRoutes.put('/addWantToRead', addWantToRead);
 userRoutes.put('/addReading', addReading);
 userRoutes.put('/removeWantToRead', removeWantToRead);
+userRoutes.put('/removeReading', removeReading);

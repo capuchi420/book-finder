@@ -11,8 +11,9 @@ export const Book = () => {
   }
   
   const [book, setBook] = useState({});
-  const [user, setUser] = useState({wantToRead: []});
+  const [user, setUser] = useState({wantToRead: [], reading: []});
   const [isInWantToRead, setIsInWantToRead] = useState(false);
+  const [isInReading, setIsInReading] = useState(false);
   const [repeat, setRepeat] = useState(false);
 
   useEffect(() => {
@@ -43,9 +44,14 @@ export const Book = () => {
       if(book_id === book._id){
         setIsInWantToRead(true);
       }
+    });
+    user.reading.forEach(book_id => {
+      if(book_id === book._id){
+        setIsInReading(true);
+      }
     })
   }
-  
+
   aa();
   }, [repeat]);
   
@@ -108,7 +114,29 @@ export const Book = () => {
     }).then(response => response.json()).then(data => {
       if(data.status){
         console.log(data.user);
-        alert('Book added on the list "Reading"');
+        if(!alert('Book added on the list "Reading"')){window.location.reload();};
+      }else{
+        alert(data.msg);
+      }
+    })
+  }
+
+  const handleRemoveR = async (e) => {
+    e.preventDefault();
+
+    let dataToSend = {
+      book_id: book._id,
+      user_id: user._id
+    };
+
+    fetch('http://localhost:7777/user/removeReading', {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataToSend)
+    }).then(response => response.json()).then(data => {
+      if(data.status){
+        console.log(data.user);
+        if(!alert('Removed')){window.location.reload();}
       }else{
         alert(data.msg);
       }
@@ -128,8 +156,7 @@ export const Book = () => {
             <h1>{book.book_name}</h1>
             <h3>{book.book_author}</h3>
             <button id="wtr" onClick={isInWantToRead ? handleRemoveFromWantToRead : handleWTR} >{isInWantToRead ? "Remove from Want to read" : "Want to read"}</button>
-            <button id="r" onClick={handleR} >Reading</button>
-            <button id="sr">Stopped reading</button>
+            <button id="r" onClick={isInReading ? handleRemoveR : handleR} >{isInReading ? "Stop reading" : "Start reading"}</button>
           </section>
         </main>
         <h5>Opis</h5>
@@ -178,12 +205,6 @@ const Container = styled.main`
 
       button#r{
         background-color: #eadbc8;
-      }
-
-      button#sr{
-        border: 2.5px solid #dac0a3;
-        color: #dac0a3;
-        background-color: transparent;
       }
     }
   }
