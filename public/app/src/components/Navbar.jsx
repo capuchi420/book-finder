@@ -19,7 +19,10 @@ export const Navbar = () => {
 
     return(
         <Container>
-            <h4 onClick={handleClick}>FindYoBook</h4>
+            <div>
+                <h4 onClick={handleClick}>FindYoBook</h4>
+                <h4 onClick={handleClick}>Forums</h4>
+            </div>
             <i className="fa-solid fa-user" onClick={handleProfileClick}></i>
         </Container>
     );
@@ -34,6 +37,8 @@ const Container = styled.div`
     h4{
         font-family: 'Caveat', cursive;
         cursor: pointer;
+        display: inline-block;
+        margin-right: 2rem;
     }
 
     i{

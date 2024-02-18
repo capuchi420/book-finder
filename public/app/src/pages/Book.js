@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import styled from "styled-components";
+import { ButtonForWTR } from "../components/ButtonForWTR";
+import { ButtonForR } from "../components/ButtonForR";
 
 export const Book = () => {
   const cookie = document.cookie;
@@ -11,9 +13,7 @@ export const Book = () => {
   }
   
   const [book, setBook] = useState({});
-  const [user, setUser] = useState({wantToRead: [], reading: []});
-  const [isInWantToRead, setIsInWantToRead] = useState(false);
-  const [isInReading, setIsInReading] = useState(false);
+
   const [repeat, setRepeat] = useState(false);
 
   useEffect(() => {
@@ -26,122 +26,7 @@ export const Book = () => {
     }
 
     getABook();
-
-    const getUser = async () => {
-      const user_id = document.cookie.slice(4, document.cookie.length);
-
-      fetch(`http://localhost:7777/user/getUser/${user_id}`).then(response => response.json()).then(data => {
-          setUser(data.user);
-          setRepeat(true);
-      });
-
-  }
-
-  getUser();
-
-  const aa = async () => {
-    user.wantToRead.forEach(book_id => {
-      if(book_id === book._id){
-        setIsInWantToRead(true);
-      }
-    });
-    user.reading.forEach(book_id => {
-      if(book_id === book._id){
-        setIsInReading(true);
-      }
-    })
-  }
-
-  aa();
-  }, [repeat]);
-  
-  
-  const handleWTR = async (e) => {
-    e.preventDefault();
-
-    let dataToSend = {
-      book_id: book._id,
-      user_id: user._id
-    };
-
-    fetch('http://localhost:7777/user/addWantToRead', {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dataToSend)
-    }).then(response => response.json()).then(data => {
-      if(data.status){
-        if(!alert('Book added on the list "Want to read"')){window.location.reload();};
-      }else{
-        alert(data.msg);
-      }
-    })
-  }
-
-  const handleRemoveFromWantToRead = async (e) => {
-    e.preventDefault();
-
-    let dataToSend = {
-      book_id: book._id,
-      user_id: user._id
-    };
-
-    fetch('http://localhost:7777/user/removeWantToRead', {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dataToSend)
-    }).then(response => response.json()).then(data => {
-      if(data.status){
-        if(!alert(data.msg)){window.location.reload();}
-      }else{
-        alert(data.msg);
-      }
-    });
-    
-  }
-
-  const handleR = async (e) => {
-    e.preventDefault();
-
-    let dataToSend = {
-      book_id: book._id,
-      user_id: user._id
-    };
-
-    fetch('http://localhost:7777/user/addReading', {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dataToSend)
-    }).then(response => response.json()).then(data => {
-      if(data.status){
-        console.log(data.user);
-        if(!alert('Book added on the list "Reading"')){window.location.reload();};
-      }else{
-        alert(data.msg);
-      }
-    })
-  }
-
-  const handleRemoveR = async (e) => {
-    e.preventDefault();
-
-    let dataToSend = {
-      book_id: book._id,
-      user_id: user._id
-    };
-
-    fetch('http://localhost:7777/user/removeReading', {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dataToSend)
-    }).then(response => response.json()).then(data => {
-      if(data.status){
-        console.log(data.user);
-        if(!alert('Removed')){window.location.reload();}
-      }else{
-        alert(data.msg);
-      }
-    })
-  }
+  }, []);
 
   return(
     <>
@@ -155,8 +40,8 @@ export const Book = () => {
           <section>
             <h1>{book.book_name}</h1>
             <h3>{book.book_author}</h3>
-            <button id="wtr" onClick={isInWantToRead ? handleRemoveFromWantToRead : handleWTR} >{isInWantToRead ? "Remove from Want to read" : "Want to read"}</button>
-            <button id="r" onClick={isInReading ? handleRemoveR : handleR} >{isInReading ? "Stop reading" : "Start reading"}</button>
+            <ButtonForWTR book_id={document.location.pathname.split('/')[2]} />
+            <ButtonForR book_id={document.location.pathname.split('/')[2]} />
           </section>
         </main>
         <h5>Opis</h5>
@@ -185,27 +70,6 @@ const Container = styled.main`
 
     section{
       margin: .3rem 0;
-
-      button{
-        display: block;
-        width: 100%;
-        margin: .5rem auto;
-        padding: .5rem 1rem;
-        border: none;
-        border-radius: 11px;
-        font-size: 1rem;
-        cursor: pointer;
-        max-width: 382px;
-      }
-
-      button#wtr{
-        color: #fff;
-        background-color: #0f2c59;
-      }
-
-      button#r{
-        background-color: #eadbc8;
-      }
     }
   }
 
