@@ -172,3 +172,58 @@ export const removeWantToRead = async (req, res) => {
         return res.json({ status: false, msg: 'Book removed from Want to read'});
     }
 }
+
+export const addFavForum = async (req, res) => {
+    try{
+        const { forum_id, user_id } = req.body;
+
+        let found = false;
+
+        let user = await userModel.findById(user_id);
+
+        user.favForums.forEach(forum => {
+            if(forum === forum_id){
+                found = true;
+            }
+        })
+
+        if(found){
+            let update = [];
+            user.favForums.forEach(forum => {
+                if(forum !== forum_id){
+                    update.push(forum);
+                }
+            });
+            user.favForums = update;
+        }
+        user.favForums.push(forum_id);
+
+        await userModel.replaceOne({ _id: user_id}, user);
+        return res.json({ status: true, user});
+    }catch(err){
+        return res.json({ status: false, msg: 'Forum is already on the list'});
+    }
+}
+
+export const removeFavForum = async (req, res) => {
+    try{
+        const { forum_id, user_id } = req.body;
+
+        let user = await userModel.findById(user_id);
+
+        let update = [];
+        
+        user.favForums.forEach(forum => {
+            if(forum !== forum_id){
+                update.push(forum);
+            }
+        });
+
+        user.favForums = update;
+
+        await userModel.replaceOne({ _id: user_id}, user);
+        return res.json({status: true, msg: "Removed", user});
+    }catch(err){
+        return res.json({ status: false, msg: 'Forum removed from Favorites'});
+    }
+}

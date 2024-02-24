@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const Footer = () => {
     return(
         <Container>
-            <p>Copyright &copy; 2023. All rights reserved</p>
+            <p>Copyright &copy; 2024. All rights reserved</p>
         </Container>
     );
 }

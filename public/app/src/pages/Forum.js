@@ -3,10 +3,11 @@ import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import styled from 'styled-components';
 import { Comment } from '../components/Comment';
+import { ButtonForForum } from '../components/ButtonForForum';
 
 export const Forum = () => {
     const [forum, setForum] = useState({});
-    const [comment, setComment] = useState({forum_id: document.location.pathname.split('/')[2],user_id: document.cookie.split('=')[1], comment: ""});
+    const [comment, setComment] = useState({forum_id: document.location.pathname.split('/')[2], user_id: document.cookie.split('=')[1], comment: ""});
 
     useEffect(() => {
         const getAForum = async () => {
@@ -45,7 +46,7 @@ export const Forum = () => {
                 <h2>{forum.forum_name}</h2>
                 <p>{forum.forum_desc}</p>  
             </div>
-            <button><i className="fa-solid fa-plus"></i> Add to Favorites</button>
+            <ButtonForForum forum_id={document.location.pathname.split('/')[2]} />
         </Header>
         <Form>
             <form onSubmit={handleSubmit}>
@@ -124,16 +125,5 @@ const Header = styled.div`
             margin-top: .5rem;
             font-size: .9rem;
         }
-    }
-
-    button{
-        display: block;
-        margin: auto;
-        padding: .4rem .8rem;
-        background-color: #0f2c59;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        box-shadow: 0 0 2px 2px rgba(0,0,0,.2);
     }
 `

@@ -17,6 +17,9 @@ const schema = mongoose.Schema({
     },
     read: {
         type: Array
+    },
+    favForums: {
+        type: Array
     }
 });
 
