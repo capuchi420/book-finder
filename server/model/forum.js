@@ -8,6 +8,9 @@ const schema = mongoose.Schema({
     forum_desc: {
         type: String,
         required: true
+    },
+    comments: {
+        type: Array
     }
 });
 
