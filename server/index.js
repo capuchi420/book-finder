@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import { dbRoutes } from './routes/db_routes.js';
 import { userRoutes } from './routes/userRoutes.js';
 import bodyParser from 'body-parser';
+import { forumRoutes } from './routes/forumRoutes.js';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));*/
 
 app.use('/db', dbRoutes);
 app.use('/user', userRoutes);
+app.use('/forum', forumRoutes);
 
 try{
     app.listen(process.env.PORT, () => {

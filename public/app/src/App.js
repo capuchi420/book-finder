@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { Profile } from "./pages/Profile";
+import { Forums } from "./pages/Forums";
+import { Forum } from "./pages/Forum";
 
 
 export const App = () => {
@@ -16,6 +18,8 @@ export const App = () => {
         <Route path="/book" element={<Home />} />
         <Route path="/book/:id" element={<Book />} />
         <Route path="/profile/:id" element={<Profile />} />
+        <Route path="/forums" element={<Forums />} />
+        <Route path='/forums/:id' element={<Forum />} />
       </Routes>
     </BrowserRouter>
   )

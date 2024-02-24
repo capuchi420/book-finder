@@ -17,11 +17,15 @@ export const Navbar = () => {
         navigate(`/profile/${document.cookie.slice(4, document.cookie.length)}`)
     }
 
+    const handleForumsClick = () => {
+        navigate(`/forums`);
+    }
+
     return(
         <Container>
             <div>
                 <h4 onClick={handleClick}>FindYoBook</h4>
-                <h4 onClick={handleClick}>Forums</h4>
+                <h4 onClick={handleForumsClick}>Forums</h4>
             </div>
             <i className="fa-solid fa-user" onClick={handleProfileClick}></i>
         </Container>
