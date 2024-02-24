@@ -5,6 +5,7 @@ import { Cards } from "../components/Cards";
 import { Footer } from "../components/Footer";
 import styled from 'styled-components'
 import Profile_Card from "../components/Profile_Card";
+import { ForumCard } from "../components/ForumCard";
 
 export const Profile = () => {
   const cookie = document.cookie;
@@ -21,20 +22,41 @@ export const Profile = () => {
   const [WTRbooks, setWTRbooks] = useState(undefined);
   const [Rbooks, setRbooks] = useState(undefined);
   const [ReadBooks, setReadBooks] = useState(undefined);
+  const [favForums, setFavForums] = useState([]);
+  const [displayForum, setDisplayForum] = useState([]);
 
   const [show, setShow] = useState(false);
   
 
   useEffect(() => {
+    const getForums = async () => {
+      fetch('http://localhost:7777/forum/getAllForums').then(response => response.json()).then(data => {
+      let update = [];  
+      console.log(data)
+      data.forEach(forum => {
+        console.log(forum)
+          favForums.forEach(favForumId => {
+            console.log(favForumId);
+            if(favForumId === forum._id){
+              update.push(forum);
+            }
+          })
+        });
+        setDisplayForum(update.reverse());
+      })
+    }
+
+    getForums();
+
     const getUser = async () => {
         const id = document.location.pathname.split('/')[2];
 
         fetch(`http://localhost:7777/user/getUser/${id}`).then(response => response.json()).then(data => {
-          console.log(data)
             setUsername(data.user.username);
             setWTRuser(data.user.wantToRead);
             setRuser(data.user.reading);
             setReadUser(data.user.read);
+            setFavForums(data.user.favForums);
         });
     }
 
@@ -78,15 +100,42 @@ export const Profile = () => {
     getAllBooks();
   },[show]);
 
+  console.log(displayForum)
+
   return(
     <>
       <Navbar />
       <Header txt={username} />
-      {show ? <Profile_Card txt="Wants to read" books={WTRbooks} /> : ""}
-      {show ? <Profile_Card txt="Reading" books={Rbooks} /> : ""}
-      {show ? <Profile_Card txt="Read" books={ReadBooks} /> : ""}
+      <Container>
+        <div className="books">
+          {show ? <Profile_Card txt="Wants to read" books={WTRbooks} /> : ""}
+          {show ? <Profile_Card txt="Reading" books={Rbooks} /> : ""}
+          {show ? <Profile_Card txt="Read" books={ReadBooks} /> : ""}
+        </div>
+        <div className="forums">
+          <h4>Favorite Forums</h4>
+          {show ? displayForum.map(forum => {
+            return <ForumCard key={forum._id} {...forum} />
+          }) : ""}
+        </div>
+      </Container>
       <Footer />
     </>
   )
 }
 
+const Container = styled.main`
+  display: grid;
+  grid-template-columns: 100%;
+
+  div.forums{
+    h4{
+      text-align: center;
+      margin-bottom: .5rem;
+    }
+  }
+
+  @media only screen and (min-width: 768px){
+    grid-template-columns: 30% 70%;
+  }
+`
