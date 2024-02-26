@@ -108,15 +108,18 @@ export const Profile = () => {
       <Header txt={username} />
       <Container>
         <div className="books">
-          {show ? <Profile_Card txt="Wants to read" books={WTRbooks} /> : ""}
-          {show ? <Profile_Card txt="Reading" books={Rbooks} /> : ""}
-          {show ? <Profile_Card txt="Read" books={ReadBooks} /> : ""}
+          {show ? <Profile_Card txt="Wants to read" books={WTRbooks} name="wanttoread" /> : ""}
+          {show ? <Profile_Card txt="Reading" books={Rbooks} name="reading"/> : ""}
+          {show ? <Profile_Card txt="Read" books={ReadBooks} name="read" /> : ""}
         </div>
         <div className="forums">
           <h4>Favorite Forums</h4>
+          <div className="forum-display">
           {show ? displayForum.map(forum => {
             return <ForumCard key={forum._id} {...forum} />
           }) : ""}
+          </div>
+          
         </div>
       </Container>
       <Footer />
@@ -132,6 +135,16 @@ const Container = styled.main`
     h4{
       text-align: center;
       margin-bottom: .5rem;
+    }
+
+    div.forum-display{
+      width: auto;
+
+      & > *{
+        display: block;
+        margin: auto;
+        margin-top: 1rem;
+      }
     }
   }
 

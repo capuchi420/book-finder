@@ -1,5 +1,5 @@
 import express from 'express';
-import { addFavForum, addReading, addWantToRead, getUser, login, register, removeFavForum, removeReading, removeWantToRead } from '../controllers/user.js';
+import { addFavForum, addRead, addReading, addWantToRead, getUser, login, register, removeFavForum, removeRead, removeReading, removeWantToRead } from '../controllers/user.js';
 
 export const userRoutes = express.Router();
 
@@ -12,3 +12,5 @@ userRoutes.put('/removeWantToRead', removeWantToRead);
 userRoutes.put('/removeReading', removeReading);
 userRoutes.put('/addFavForum', addFavForum);
 userRoutes.put('/removeFavForum', removeFavForum);
+userRoutes.put('/addRead', addRead);
+userRoutes.put('/removeRead', removeRead);

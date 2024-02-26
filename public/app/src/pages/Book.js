@@ -4,6 +4,7 @@ import { Footer } from "../components/Footer";
 import styled from "styled-components";
 import { ButtonForWTR } from "../components/ButtonForWTR";
 import { ButtonForR } from "../components/ButtonForR";
+import { ButtonForRead } from "../components/ButtonForRead";
 
 export const Book = () => {
   const cookie = document.cookie;
@@ -42,6 +43,7 @@ export const Book = () => {
             <h3>{book.book_author}</h3>
             <ButtonForWTR book_id={document.location.pathname.split('/')[2]} />
             <ButtonForR book_id={document.location.pathname.split('/')[2]} />
+            <ButtonForRead book_id={document.location.pathname.split('/')[2]} />
           </section>
         </main>
         <h5>Opis</h5>

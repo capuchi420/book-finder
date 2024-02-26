@@ -83,6 +83,25 @@ export const addWantToRead = async (req, res) => {
             });
             user.reading = update;
         }
+
+        let foundInRead = false;
+
+        user.read.forEach(book => {
+            if(book === book_id){
+                foundInRead = true;
+            }
+        })
+
+        if(foundInRead){
+            let update = [];
+            user.read.forEach(book => {
+                if(book !== book_id){
+                    update.push(book);
+                }
+            });
+            user.read = update;
+        }
+
         user.wantToRead.push(book_id);
 
         await userModel.replaceOne({ _id: user_id}, user);
@@ -95,8 +114,6 @@ export const addWantToRead = async (req, res) => {
 export const addReading = async (req, res) => {
     try{
         const { book_id, user_id } = req.body;
-
-        let found = false;
 
         let user = await userModel.findById(user_id);
 
@@ -117,6 +134,25 @@ export const addReading = async (req, res) => {
             });
             user.wantToRead = update;
         }
+
+        let foundInRead = false;
+
+        user.read.forEach(book => {
+            if(book === book_id){
+                foundInRead = true;
+            }
+        });
+
+        if(foundInRead){
+            let update = [];
+            user.read.forEach(book => {
+                if(book !== book_id){
+                    update.push(book);
+                }
+            });
+            user.read = update;
+        }
+
         user.reading.push(book_id);
 
         await userModel.replaceOne({ _id: user_id}, user);
@@ -225,5 +261,80 @@ export const removeFavForum = async (req, res) => {
         return res.json({status: true, msg: "Removed", user});
     }catch(err){
         return res.json({ status: false, msg: 'Forum removed from Favorites'});
+    }
+}
+
+export const addRead = async (req, res) => {
+    try{
+        const { book_id, user_id } = req.body;
+
+        let user = await userModel.findById(user_id);
+
+        let foundInWTR = false;
+
+        user.wantToRead.forEach(book => {
+            if(book === book_id){
+                foundInWTR = true;
+            }
+        });
+
+        if(foundInWTR){
+            let update = [];
+            user.wantToRead.forEach(book => {
+                if(book !== book_id){
+                    update.push(book);
+                }
+            });
+            user.wantToRead = update;
+        }
+
+        let foundInReading = false;
+
+        user.reading.forEach(book => {
+            if(book === book_id){
+                foundInReading = true;
+            }
+        });
+
+        if(foundInReading){
+            let update = [];
+            user.reading.forEach(book => {
+                if(book !== book_id){
+                    update.push(book);
+                }
+            });
+            user.reading = update;
+        }
+
+
+        user.read.push(book_id);
+
+        await userModel.replaceOne({ _id: user_id}, user);
+        return res.json({ status: true, user});
+    }catch(err){
+        return res.json({ status: false, msg: 'Book is already on the list'});
+    }
+}
+
+export const removeRead = async (req, res) => {
+    try{
+        const { book_id, user_id } = req.body;
+
+        let user = await userModel.findById(user_id);
+
+        let update = [];
+        
+        user.read.forEach(book => {
+            if(book !== book_id){
+                update.push(book);
+            }
+        });
+
+        user.read = update;
+
+        await userModel.replaceOne({ _id: user_id}, user);
+        return res.json({status: true, msg: "Removed", user});
+    }catch(err){
+        return res.json({ status: false, msg: 'Book removed from Read'});
     }
 }

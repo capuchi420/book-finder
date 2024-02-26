@@ -7,6 +7,7 @@ import { Register } from "./pages/Register";
 import { Profile } from "./pages/Profile";
 import { Forums } from "./pages/Forums";
 import { Forum } from "./pages/Forum";
+import { ProfileCardPage } from "./pages/ProfileCardPage";
 
 
 export const App = () => {
@@ -20,6 +21,7 @@ export const App = () => {
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/forums" element={<Forums />} />
         <Route path='/forums/:id' element={<Forum />} />
+        <Route path='/list/:listname' element={<ProfileCardPage />} />
       </Routes>
     </BrowserRouter>
   )

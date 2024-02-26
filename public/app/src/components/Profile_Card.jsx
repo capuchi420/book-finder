@@ -1,10 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
 
 export default function Profile_Card(props) {
+  const navigate = useNavigate();
+  
+  const handleClick = () => {
+    navigate(`/list/${props.name}`);
+  }
+
   return (
     <WantToRead>
-        <h5>{props.txt}</h5>
+        <h5 onClick={handleClick}>{props.txt}</h5>
         <div className="grid">
           <div className="one">
             <img src={props.books[0] === null ? "" : props.books[0]} />

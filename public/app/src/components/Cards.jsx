@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Card } from "./Card";
 import styled from "styled-components";
 
-export const Cards = () => {
+export const Cards = (props) => {
+    const [user, setUser] = useState({});
+
+
+
     const [books, setBooks] = useState([]);
 
     const [search, setSearch] = useState({
@@ -19,6 +23,17 @@ export const Cards = () => {
         }
 
         getAllBooks();
+
+        const getUser = () => {
+            const user_id = document.cookie.slice(4, document.cookie.length);
+      
+            fetch(`http://localhost:7777/user/getUser/${user_id}`).then(response => response.json()).then(data => {
+                setUser(data.user);
+            });
+      
+        }
+      
+        getUser();
     }, []);
 
     function camelize(str) {
@@ -47,21 +62,72 @@ export const Cards = () => {
         return <Card key={book._id} {...book} />
     });
 
+    let update = [];
+
+    books.map(book => {
+        user.wantToRead.forEach(wtr_book => {
+            if(wtr_book === book._id){
+                update.push(<Card key={book._id} {...book} />);
+            }
+        })
+    });
+
+    const wantToReadBooks = update;
+    update = [];
+
+    books.map(book => {
+        user.reading.forEach(reading_book => {
+            if(reading_book === book._id){
+                update.push(<Card key={book._id} {...book} />);
+            }
+        })
+    });
+
+    const readingBooks = update;
+    update = [];
+
+    books.map(book => {
+        user.read.forEach(read_book => {
+            if(read_book === book._id){
+                update.push(<Card key={book._id} {...book} />);
+            }
+        })
+    });
+
+    const readBooks = update;
+
+    console.log(props.page)
+
     return(
         <main>
-            <Form>
+             {!props.page && <Form>
                 <form onSubmit={handleSubmit}>
                     <input type="text" placeholder="find yo damn book..." onChange={handleChange} value={search.based} />
                     <button><i className="fa-solid fa-magnifying-glass"></i></button>
                 </form>
-            </Form>
+            </Form>}
+            {!props.page ?
             <Container id="books">
                 {search.based === "" ? allBooks : books.map(book => {
                                                                 if(book.book_name.includes(search.based) || book.book_name.includes(search.uppercase) || book.book_name.includes(search.lowercase) || book.book_name.includes(search.camel) || book.book_name.includes(search.firstletter)){
                                                                     return <Card key={book._id} {...book} />;
                                                                 }
                 })}
+            </Container> : (props.page === 'wanttoread' ? 
+            <Container id="books">
+                {wantToReadBooks}
             </Container>
+                 : (props.page === 'reading' ? 
+                 <Container id="books">
+                     {readingBooks} 
+                 </Container>
+                 : (props.page === 'read' ? 
+                 <Container id="books">
+                    {readBooks}
+                 </Container>
+                 : "")))
+                
+            }
         </main>
     );
 }
