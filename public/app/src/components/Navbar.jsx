@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
+    // DECLARE
     const navigate = useNavigate();
 
-    const handleClick = () => {
+    // HANDLE LOGO CLICK FUNCTION
+    const handleLogoClick = () => {
         if(window.location.href === 'http://localhost:3000/book'){
             window.location.reload(true);
         }else{
@@ -13,10 +15,12 @@ export const Navbar = () => {
         }
     }
 
+    // HANDLE PROFILE LICK FUNCTION
     const handleProfileClick = () => {
         navigate(`/profile/${document.cookie.slice(4, document.cookie.length)}`)
     }
 
+    // HANDLE FORUMS CLICK FUNCTION
     const handleForumsClick = () => {
         navigate(`/forums`);
     }
@@ -24,7 +28,7 @@ export const Navbar = () => {
     return(
         <Container>
             <div>
-                <h4 onClick={handleClick}>FindYoBook</h4>
+                <h4 onClick={handleLogoClick}>FindYoBook</h4>
                 <h4 onClick={handleForumsClick}>Forums</h4>
             </div>
             <i className="fa-solid fa-user" onClick={handleProfileClick}></i>

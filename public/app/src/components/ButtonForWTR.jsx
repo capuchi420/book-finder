@@ -2,21 +2,23 @@ import {React, useState, useEffect} from "react";
 import styled from "styled-components";
 
 export const ButtonForWTR = (props) => {
+    // DECLARE
     const [isInWantToRead, setIsInWantToRead] = useState(false);
     const [user, setUser] = useState({wantToRead: [], reading: []});
 
 
     useEffect(() => {
+        // GET A USER AND PLACE IT IN user
         const getUser = () => {
           const user_id = document.cookie.slice(4, document.cookie.length);
     
           fetch(`http://localhost:7777/user/getUser/${user_id}`).then(response => response.json()).then(data => {
               setUser(data.user);
-              console.log(props.book_id)
+
+              // CHECK IF THE BOOK IS IN LIST user.wantToRead, IF IT IS, CHANGE isInWantToRead TO TRUE
               data.user.wantToRead.forEach(_id => {
                 if(_id === props.book_id){
                   setIsInWantToRead(true);
-                  console.log('aa');
                 }
               });
           });
@@ -24,11 +26,10 @@ export const ButtonForWTR = (props) => {
       }
     
       getUser();
-      }, []);
+      }, []); // eslint-disable-line
 
-    const handleWTR = async (e) => {
-        e.preventDefault();
-    
+      // HANDLE ADD BOOK TO WANT TO READ LIST FUNCTION
+    const handleAdd = async (e) => { 
         let dataToSend = {
           book_id: props.book_id,
           user_id: user._id
@@ -40,16 +41,15 @@ export const ButtonForWTR = (props) => {
           body: JSON.stringify(dataToSend)
         }).then(response => response.json()).then(data => {
           if(data.status){
-            if(!alert('Book added on the list "Want to read"')){window.location.reload();};
+            if(!alert('Book added')){window.location.reload();}
           }else{
             alert(data.msg);
           }
         })
       }
     
-      const handleRemoveFromWantToRead = async (e) => {
-        e.preventDefault();
-    
+      // HANDLE REMOVE FROM WANT TO READ LIST FUNCTION
+      const handleRemove = async (e) => {  
         let dataToSend = {
           book_id: props.book_id,
           user_id: user._id
@@ -61,7 +61,7 @@ export const ButtonForWTR = (props) => {
           body: JSON.stringify(dataToSend)
         }).then(response => response.json()).then(data => {
           if(data.status){
-            if(!alert(data.msg)){window.location.reload();}
+            if(!alert('Book removed')){window.location.reload();}
           }else{
             alert(data.msg);
           }
@@ -70,7 +70,7 @@ export const ButtonForWTR = (props) => {
       }
 
     return(
-        <Container onClick={isInWantToRead ? handleRemoveFromWantToRead : handleWTR}>
+        <Container onClick={isInWantToRead ? handleRemove : handleAdd}>
             {isInWantToRead ? "Remove from Want to read" : "Want to read"}
         </Container>
     );

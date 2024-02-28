@@ -2,6 +2,8 @@ import { bookModel } from "../model/db_model.js";
 import { userModel } from "../model/user.js";
 import bcrypt from 'bcrypt';
 
+
+// LOGIN FUNCTION
 export const login = async (req, res) => {
     try{
         const {username, password} = req.body;
@@ -15,7 +17,6 @@ export const login = async (req, res) => {
         if(!isPasswordRight) return res.json({status: false, msg: "Wrong password"});
 
         return res.json({status: true, isThereAUser});
-
     }catch(err){
         res.send(err);
     }

@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
 
 export const ForumCard = (props) => {
+  // DECLARE
   const navigate = useNavigate();
 
+  // HANDLE CLICK FUNCTION
   const handleClick = () => {
     navigate(`/forums/${props._id}`);
   }

@@ -6,10 +6,27 @@ import { Comment } from '../components/Comment';
 import { ButtonForForum } from '../components/ButtonForForum';
 
 export const Forum = () => {
+    // CHECK FOR COOKIE
+  const cookie = document.cookie;
+
+  if(!cookie){
+     window.location.href = '/';
+  }
+  
+    // DECLARE
     const [forum, setForum] = useState({});
     const [comment, setComment] = useState({forum_id: document.location.pathname.split('/')[2], user_id: document.cookie.split('=')[1], comment: ""});
 
+    // HANDLE CHANGE FUNCTION
+    const handleChange = (e) => {
+        let value = e.target.value;
+        setComment(data => {
+            return {...data, [e.target.name]: value}
+        });
+      }
+
     useEffect(() => {
+        // GET A FORUM AND PLACE IT IN forum
         const getAForum = async () => {
           const forum_id = document.location.pathname.split('/')[2];
           
@@ -21,6 +38,7 @@ export const Forum = () => {
         getAForum();
       }, []);
 
+      // HANDLE SUBMIT FUNCTION
       const handleSubmit = async (e) => {
         fetch('http://localhost:7777/forum/postAComment',{
             method: "POST",
@@ -28,13 +46,6 @@ export const Forum = () => {
             body: JSON.stringify(comment)
         }).then(response => response.json()).then(data => {
             console.log(data.forum)
-        })
-      }
-
-      const handleChange = (e) => {
-        let value = e.target.value;
-        setComment(data => {
-            return {...data, [e.target.name]: value}
         })
       }
 

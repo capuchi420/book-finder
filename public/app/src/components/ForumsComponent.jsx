@@ -3,15 +3,8 @@ import styled from "styled-components";
 import { ForumCard } from './ForumCard';
 
 export const ForumsComponent = () => {
+    // DECLARE
     const [forums, setForums] = useState([]);
-
-    useEffect(() => {
-        const getAllForums = async () => {
-            fetch('http://localhost:7777/forum/getAllForums').then(response => response.json()).then(data => setForums(data));
-        }
-
-        getAllForums();
-    }, []);
 
     const [search, setSearch] = useState({
         based: "",
@@ -21,6 +14,11 @@ export const ForumsComponent = () => {
         firstletter: ""
     });
 
+    const allForums = forums.map(book => {
+        return <ForumCard key={book._id} {...book} />
+    });
+
+    // FUNCTION FOR CAMELIZE
     function camelize(str) {
         return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
           if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
@@ -28,6 +26,7 @@ export const ForumsComponent = () => {
         });
       }
 
+      // HANDLE CHANGE FUNCTION
     const handleChange = (e) => {
         let value = e.target.value;
         setSearch({
@@ -39,13 +38,19 @@ export const ForumsComponent = () => {
         });
     }
 
-    const allForums = forums.map(book => {
-        return <ForumCard key={book._id} {...book} />
-    });
-
+    // HANDLE SUBMIT FUNCTION
     const handleSubmit = (e) => {
         e.preventDefault();
     }
+
+    useEffect(() => {
+        // GET ALL FORUMS AND PLACE THEM IN forums
+        const getAllForums = async () => {
+            fetch('http://localhost:7777/forum/getAllForums').then(response => response.json()).then(data => setForums(data));
+        }
+
+        getAllForums();
+    }, []);
 
   return (
     <main>
@@ -56,7 +61,7 @@ export const ForumsComponent = () => {
             </form>
         </Form>
         <Container>
-                {search.based === "" ? allForums : forums.map(forum => {
+                {search.based === "" ? allForums : forums.map(forum => { /* eslint-disable-line */
                                                                 if(forum.forum_name.includes(search.based) || forum.forum_name.includes(search.uppercase) || forum.forum_name.includes(search.lowercase) || forum.forum_name.includes(search.camel) || forum.forum_name.includes(search.firstletter)){
                                                                     return <ForumCard key={forum._id} {...forum} />;
                                                                 }

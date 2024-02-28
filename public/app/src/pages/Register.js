@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
+    // CHECK FOR COOKIE
     const cookie = document.cookie;
 
     if(cookie){
        window.location.href = '/book' 
     }
 
+    // DECLARE
     const navigate = useNavigate();
 
     const [error, setError] = useState("");
@@ -20,6 +22,14 @@ export const Register = () => {
         repeatPassword: ""
     });
 
+    // HANDLE CHANGE FUNCTION
+    const handleChange = (e) => {
+        setRegister(data => {
+            return {...data, [e.target.name]: e.target.value}
+        });
+    }
+
+    // HANDLE SUBMIT FUNCTION
     const handleSubmit = (e) => {
         e.preventDefault();
         setError("");
@@ -32,14 +42,8 @@ export const Register = () => {
                 setError(data.msg);
             }else{
                 document.cookie = `_id=${data.createdUser._id}; expiers=Thu, 18 Dec 9999 12:00:00 UTC;`;
-                navigate('/book')
+                navigate(`/profile/${data.createdUser._id}`);
             }
-        });
-    }
-
-    const handleChange = (e) => {
-        setRegister(data => {
-            return {...data, [e.target.name]: e.target.value}
         });
     }
 

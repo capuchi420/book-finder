@@ -1,42 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { Navbar } from "../components/Navbar";
 import { Header } from "../components/Header";
-import { Cards } from "../components/Cards";
 import { Footer } from "../components/Footer";
 import styled from 'styled-components'
 import Profile_Card from "../components/Profile_Card";
 import { ForumCard } from "../components/ForumCard";
 
 export const Profile = () => {
+  // CHECK FOR COOKIE
   const cookie = document.cookie;
 
   if(!cookie){
      window.location.href = '/';
   }
 
-  const [username, setUsername] = useState("");
-  const [WTRuser, setWTRuser] = useState([]);
-  const [Ruser, setRuser] = useState([]);
-  const [ReadUser, setReadUser] = useState([]);
+  // DECLARE
+  const [user, setUser] = useState({
+    username: "",
+    wantToRead: [],
+    reading: [],
+    read: [],
+    favForums: []
+  });
 
-  const [WTRbooks, setWTRbooks] = useState(undefined);
-  const [Rbooks, setRbooks] = useState(undefined);
-  const [ReadBooks, setReadBooks] = useState(undefined);
-  const [favForums, setFavForums] = useState([]);
+  const [wantToRead_Books, setWantToRead_Books] = useState([]);
+  const [reading_Books, setReading_Books] = useState([]);
+  const [read_Books, setRead_Books] = useState([]);
+
   const [displayForum, setDisplayForum] = useState([]);
 
   const [show, setShow] = useState(false);
   
-
+  // LOAD CONTENT
   useEffect(() => {
+
+    // GO THROUGH FORUMS AND SELECT FAVORITE ONES, PLACE THEM IN displayForum
     const getForums = async () => {
       fetch('http://localhost:7777/forum/getAllForums').then(response => response.json()).then(data => {
       let update = [];  
-      console.log(data)
       data.forEach(forum => {
-        console.log(forum)
-          favForums.forEach(favForumId => {
-            console.log(favForumId);
+          user.favForums.forEach(favForumId => {
             if(favForumId === forum._id){
               update.push(forum);
             }
@@ -45,72 +48,72 @@ export const Profile = () => {
         setDisplayForum(update.reverse());
       })
     }
-
     getForums();
 
+    // GET A USER INFO
     const getUser = async () => {
         const id = document.location.pathname.split('/')[2];
 
         fetch(`http://localhost:7777/user/getUser/${id}`).then(response => response.json()).then(data => {
-            setUsername(data.user.username);
-            setWTRuser(data.user.wantToRead);
-            setRuser(data.user.reading);
-            setReadUser(data.user.read);
-            setFavForums(data.user.favForums);
+            setUser(data.user);
         });
     }
 
+    // GET ALL BOOKS AND SORT THEM
     const getAllBooks = async () => {
       await getUser();
-      let update = [];
       fetch('http://localhost:7777/db/getAllBooks').then(response => response.json()).then(data => {
+       let update = [];
+
+        // WANT TO READ BOOKS
         for(let i = 0; i < data.length; i++){
-          for(let j = 0; j < WTRuser.length; j++){
-            if(data[i]._id === WTRuser[j]){
+          for(let j = 0; j < user.wantToRead.length; j++){
+            if(data[i]._id === user.wantToRead[j]){
               update.push(data[i].book_img_url);
             }
           }
         }
-        setWTRbooks(update.reverse());
+        setWantToRead_Books(update.reverse());
 
+        // READING BOOKS
         update = [];
         for(let i = 0; i < data.length; i++){
-          for(let j = 0; j < Ruser.length; j++){
-            if(data[i]._id === Ruser[j]){
+          for(let j = 0; j < user.reading.length; j++){
+            if(data[i]._id === user.reading[j]){
               update.push(data[i].book_img_url);
             }
           }
         }
-        setRbooks(update.reverse());
+        setReading_Books(update.reverse());
 
+        // READ BOOKS
         update = [];
         for(let i = 0; i < data.length; i++){
-          for(let j = 0; j < ReadUser.length; j++){
-            if(data[i]._id === ReadUser[j]){
+          for(let j = 0; j < user.read.length; j++){
+            if(data[i]._id === user.read[j]){
               update.push(data[i].book_img_url);
             }
           }
         }
-        setReadBooks(update.reverse());
+        setRead_Books(update.reverse());
         
         setShow(true);
       });
     }
 
     getAllBooks();
-  },[show]);
+  },[show]); // eslint-disable-line
 
-  console.log(displayForum)
 
   return(
     <>
       <Navbar />
-      <Header txt={username} />
+      <Header txt={user.username} />
       <Container>
         <div className="books">
-          {show ? <Profile_Card txt="Wants to read" books={WTRbooks} name="wanttoread" /> : ""}
-          {show ? <Profile_Card txt="Reading" books={Rbooks} name="reading"/> : ""}
-          {show ? <Profile_Card txt="Read" books={ReadBooks} name="read" /> : ""}
+          {show ? <Profile_Card txt="Wants to read" books={wantToRead_Books} name="wanttoread" /> : "" /* eslint-disable-line */} 
+          {show ? <Profile_Card txt="Reading" books={reading_Books} name="reading"/> : "" /* eslint-disable-line */}
+          {show ? <Profile_Card txt="Read" books={read_Books} name="read" /> : "" /* eslint-disable-line */}
         </div>
         <div className="forums">
           <h4>Favorite Forums</h4>

@@ -2,9 +2,11 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
 export const Comment = (props) => {
+    // DECLARE
     const [user, setUser] = useState({});
 
     useEffect(() => {
+        // GET A USER AND PLACE IT IN user
         const getAUser = async () => {
             fetch(`http://localhost:7777/user/getUser/${props.user_id}`).then(response => response.json()).then(data => {
                 setUser(data.user);
@@ -12,7 +14,8 @@ export const Comment = (props) => {
         }
 
         getAUser();
-    }, []);
+    }, []); // eslint-disable-line
+
   return (
     <Container>
         <div className="user-info">

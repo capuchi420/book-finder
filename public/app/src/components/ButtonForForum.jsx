@@ -2,15 +2,19 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
 export const ButtonForForum = (props) => {
+  // DECLARE
     const [isInFavForums, setIsInFavForums] = useState(false);
     const [user, setUser] = useState({})
 
     useEffect(() => {
+      // GET A USER AND PLACE IT IN user
         const getUser = () => {
           const user_id = document.cookie.slice(4, document.cookie.length);
     
           fetch(`http://localhost:7777/user/getUser/${user_id}`).then(response => response.json()).then(data => {
               setUser(data.user);
+
+              // CHECK IF THE FORUM IS IN LIST user.favForums, IF IT IS, CHANGE isInFavForums TO TRUE
               data.user.favForums.forEach(forum => {
                 if(forum === props.forum_id){
                   setIsInFavForums(true);
@@ -21,11 +25,10 @@ export const ButtonForForum = (props) => {
       }
     
       getUser();
-      }, []);
+      }, []); // eslint-disable-line
 
-      const handleAdd = async (e) => {
-        e.preventDefault();
-    
+      // HANDLE ADD FORUM TO FAV FORUM LIST FUNCTION
+      const handleAdd = async (e) => { 
         let dataToSend = {
           forum_id: props.forum_id,
           user_id: user._id
@@ -37,16 +40,15 @@ export const ButtonForForum = (props) => {
           body: JSON.stringify(dataToSend)
         }).then(response => response.json()).then(data => {
           if(data.status){
-            if(!alert('Forum added on the list "Favorites"')){window.location.reload();};
+            if(!alert('Forum added')){window.location.reload();}
           }else{
             alert(data.msg);
           }
         })
       }
-    
+
+      // HANDLE REMOVE FROM FAV FORUM LIST FUNCTION
       const handleRemove = async (e) => {
-        e.preventDefault();
-    
         let dataToSend = {
           forum_id: props.forum_id,
           user_id: user._id
@@ -58,7 +60,7 @@ export const ButtonForForum = (props) => {
           body: JSON.stringify(dataToSend)
         }).then(response => response.json()).then(data => {
           if(data.status){
-            if(!alert(data.msg)){window.location.reload();}
+            if(!alert('Forum removed')){window.location.reload();}
           }else{
             alert(data.msg);
           }

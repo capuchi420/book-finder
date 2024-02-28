@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export const Card = (props) => {
+    // DECLARE
     const navigate = useNavigate();
 
+    // HANDLE CLICK FUNCTION
     const handleClick = () => {
         navigate(`/book/${props._id}`);
     }
@@ -12,7 +14,7 @@ export const Card = (props) => {
     return(
         <Container>
             <div className="img-holder">
-                <img src={props.book_img_url} alt="Book Image" />
+                <img src={props.book_img_url} alt="Book Image" /* eslint-disable-line */ />
             </div>
             <div className="desc">
                 <h4>{props.book_name}</h4>

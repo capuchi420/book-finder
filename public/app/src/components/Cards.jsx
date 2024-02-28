@@ -3,9 +3,8 @@ import { Card } from "./Card";
 import styled from "styled-components";
 
 export const Cards = (props) => {
+    // DECLARE
     const [user, setUser] = useState({});
-
-
 
     const [books, setBooks] = useState([]);
 
@@ -17,13 +16,43 @@ export const Cards = (props) => {
         firstletter: ""
     });
 
+    const allBooks = books.map(book => {
+        return <Card key={book._id} {...book} />
+    });
+
+    // FUNCTION FOR CAMELIZE
+    function camelize(str) {
+        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+          if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+          return index === 0 ? match.toLowerCase() : match.toUpperCase();
+        });
+      }
+
+      // HANDLE CHANGE FUNCTION
+      const handleChange = (e) => {
+        let value = e.target.value;
+        setSearch({
+            based: value,
+            uppercase: value.toUpperCase(),
+            lowercase: value.toLowerCase(),
+            camel: camelize(value),
+            firstletter: value.charAt(0).toUpperCase()
+        });
+    }
+
+    // HANDLE SUBMIT FUNCTION
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    }
+
     useEffect(() => {
+        // GET ALL BOOKS AND PLACE THEM IN books
         const getAllBooks = async () => {
             fetch('http://localhost:7777/db/getAllBooks').then(response => response.json()).then(data => setBooks(data));
         }
-
         getAllBooks();
 
+        // GET A USER AND PLACE IT IN user
         const getUser = () => {
             const user_id = document.cookie.slice(4, document.cookie.length);
       
@@ -36,67 +65,39 @@ export const Cards = (props) => {
         getUser();
     }, []);
 
-    function camelize(str) {
-        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
-          if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
-          return index === 0 ? match.toLowerCase() : match.toUpperCase();
-        });
-      }
-
-      const handleChange = (e) => {
-        let value = e.target.value;
-        setSearch({
-            based: value,
-            uppercase: value.toUpperCase(),
-            lowercase: value.toLowerCase(),
-            camel: camelize(value),
-            firstletter: value.charAt(0).toUpperCase()
-        });
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    }
-
-    const allBooks = books.map(book => {
-        return <Card key={book._id} {...book} />
-    });
-
+    // LOADING CARDS FOR DIFFERENT KINDS OF BOOKS
+    // - want to read books
     let update = [];
-
-    books.map(book => {
+    books.map(book => { // eslint-disable-line
         user.wantToRead.forEach(wtr_book => {
             if(wtr_book === book._id){
                 update.push(<Card key={book._id} {...book} />);
             }
         })
     });
-
     const wantToReadBooks = update;
-    update = [];
 
-    books.map(book => {
+    // - reading books
+    update = [];
+    books.map(book => { // eslint-disable-line
         user.reading.forEach(reading_book => {
             if(reading_book === book._id){
                 update.push(<Card key={book._id} {...book} />);
             }
         })
     });
-
     const readingBooks = update;
-    update = [];
 
-    books.map(book => {
+    // - read books
+    update = [];
+    books.map(book => { // eslint-disable-line
         user.read.forEach(read_book => {
             if(read_book === book._id){
                 update.push(<Card key={book._id} {...book} />);
             }
         })
     });
-
     const readBooks = update;
-
-    console.log(props.page)
 
     return(
         <main>
@@ -106,28 +107,13 @@ export const Cards = (props) => {
                     <button><i className="fa-solid fa-magnifying-glass"></i></button>
                 </form>
             </Form>}
-            {!props.page ?
             <Container id="books">
-                {search.based === "" ? allBooks : books.map(book => {
+                {!props.page ?
+                    (search.based === "" ? allBooks : books.map(book => { // eslint-disable-line
                                                                 if(book.book_name.includes(search.based) || book.book_name.includes(search.uppercase) || book.book_name.includes(search.lowercase) || book.book_name.includes(search.camel) || book.book_name.includes(search.firstletter)){
                                                                     return <Card key={book._id} {...book} />;
-                                                                }
-                })}
-            </Container> : (props.page === 'wanttoread' ? 
-            <Container id="books">
-                {wantToReadBooks}
+                                                                }})) : (props.page === 'wanttoread' ? wantToReadBooks : (props.page === 'reading' ? readingBooks : readBooks))}
             </Container>
-                 : (props.page === 'reading' ? 
-                 <Container id="books">
-                     {readingBooks} 
-                 </Container>
-                 : (props.page === 'read' ? 
-                 <Container id="books">
-                    {readBooks}
-                 </Container>
-                 : "")))
-                
-            }
         </main>
     );
 }

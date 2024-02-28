@@ -7,17 +7,18 @@ import { ButtonForR } from "../components/ButtonForR";
 import { ButtonForRead } from "../components/ButtonForRead";
 
 export const Book = () => {
+  // CHECK FOR COOKIE
   const cookie = document.cookie;
 
   if(!cookie){
      window.location.href = '/';
   }
-  
+
+  // DECLARE
   const [book, setBook] = useState({});
 
-  const [repeat, setRepeat] = useState(false);
-
   useEffect(() => {
+    // GET A BOOK AND PLACE IT IN book
     const getABook = async () => {
       const book_id = document.location.pathname.split('/')[2];
       
@@ -32,11 +33,11 @@ export const Book = () => {
   return(
     <>
       <Navbar />
-      {book != null && (
+      {book !== null && (
         <Container>
         <main>
           <div>
-            <img src={book.book_img_url} />
+            <img src={book.book_img_url} /* eslint-disable-line */ /> 
           </div>
           <section>
             <h1>{book.book_name}</h1>

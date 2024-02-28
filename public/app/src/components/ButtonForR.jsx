@@ -2,16 +2,20 @@ import {React, useState, useEffect} from "react";
 import styled from "styled-components";
 
 export const ButtonForR = (props) => {
+    // DECLARE
     const [isInReading, setIsInReading] = useState(false);
     const [user, setUser] = useState({wantToRead: [], reading: []});
 
 
     useEffect(() => {
+      // GET A USER AND PLACE IT IN user
         const getUser = () => {
           const user_id = document.cookie.slice(4, document.cookie.length);
     
           fetch(`http://localhost:7777/user/getUser/${user_id}`).then(response => response.json()).then(data => {
               setUser(data.user);
+
+              // CHECK IF THE BOOK IS IN LIST user.reading, IF IT IS, CHANGE isInReading TO TRUE
               data.user.reading.forEach(_id => {
                 if(_id === props.book_id){
                   setIsInReading(true);
@@ -23,11 +27,10 @@ export const ButtonForR = (props) => {
       }
     
       getUser();
-      }, []);
+      }, []); // eslint-disable-line
 
-      const handleR = async (e) => {
-        e.preventDefault();
-    
+      // HANDLE ADD BOOK TO READING LIST FUNCTION
+      const handleAdd = async (e) => {
         let dataToSend = {
           book_id: props.book_id,
           user_id: user._id
@@ -39,17 +42,15 @@ export const ButtonForR = (props) => {
           body: JSON.stringify(dataToSend)
         }).then(response => response.json()).then(data => {
           if(data.status){
-            console.log(data.user);
-            if(!alert('Book added on the list "Reading"')){window.location.reload();};
+            if(!alert('Book added')){window.location.reload();}
           }else{
             alert(data.msg);
           }
         })
       }
     
-      const handleRemoveR = async (e) => {
-        e.preventDefault();
-    
+      // HANDLE REMOVE FROM READING LIST FUNCTION
+      const handleRemove = async (e) => {    
         let dataToSend = {
           book_id: props.book_id,
           user_id: user._id
@@ -61,8 +62,7 @@ export const ButtonForR = (props) => {
           body: JSON.stringify(dataToSend)
         }).then(response => response.json()).then(data => {
           if(data.status){
-            console.log(data.user);
-            if(!alert('Removed')){window.location.reload();}
+            if(!alert('Book removed')){window.location.reload();}
           }else{
             alert(data.msg);
           }
@@ -70,7 +70,7 @@ export const ButtonForR = (props) => {
       }
 
     return(
-        <Container onClick={isInReading ? handleRemoveR : handleR}>
+        <Container onClick={isInReading ? handleRemove : handleAdd}>
             {isInReading ? "Stop reading" : "Start reading"}
         </Container>
     );

@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
 
 export default function Profile_Card(props) {
+  // DECLARE
   const navigate = useNavigate();
   
+  // HANDLE CLICK FUNCTION
   const handleClick = () => {
     navigate(`/list/${props.name}`);
   }
@@ -14,13 +16,13 @@ export default function Profile_Card(props) {
         <h5 onClick={handleClick}>{props.txt}</h5>
         <div className="grid">
           <div className="one">
-            <img src={props.books[0] === null ? "" : props.books[0]} />
+            <img src={props.books[0] === null ? "" : props.books[0]} /* eslint-disable-line */ />
           </div>
           <div className="two">
-          <img src={props.books[1] === null ? "" : props.books[1]} />
+          <img src={props.books[1] === null ? "" : props.books[1]} /* eslint-disable-line */ />
           </div>
           <div className="three">
-          <img src={props.books[2] === null ? "" : props.books[2]} />
+          <img src={props.books[2] === null ? "" : props.books[2]} /* eslint-disable-line */ />
           </div>
         </div>
     </WantToRead>
@@ -37,6 +39,7 @@ const WantToRead = styled.div`
   h5{
     text-align: center;
     margin-bottom: 1rem;
+    cursor: pointer;
   }
 
   div.grid{

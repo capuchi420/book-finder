@@ -5,6 +5,7 @@ import { Cards } from "../components/Cards";
 import { Footer } from "../components/Footer";
 
 export const Home = () => {
+  // CHECK FOR COOKIE
   const cookie = document.cookie;
 
   if(!cookie){

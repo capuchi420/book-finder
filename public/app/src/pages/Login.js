@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Navbar } from "../components/Navbar";
-import { Footer } from "../components/Footer";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+
+    // CHECK FOR COOKIE
     const cookie = document.cookie;
 
     if(cookie){
        window.location.href = '/book' 
     }
 
+    // DECLARE
     const navigate = useNavigate();
 
     const [error, setError] = useState("");
@@ -21,6 +22,14 @@ export const Login = () => {
         password: ""
     });
 
+    // HANDLE CHANGE FUNCTION
+    const handleChange = (e) => {
+        setLogin(data => {
+            return {...data, [e.target.name]: e.target.value}
+        });
+    }
+
+    // HANDLE SUBMIT FUNCTION
     const handleSubmit = (e) => {
         e.preventDefault();
         setError("");
@@ -33,16 +42,12 @@ export const Login = () => {
                 setError(data.msg);
             }else{
                 document.cookie = `_id=${data.isThereAUser._id}; expiers=Thu, 18 Dec 9999 12:00:00 UTC;`;
-                navigate('/book');
+                navigate(`/profile/${data.isThereAUser._id}`);
             }
         });
     }
 
-    const handleChange = (e) => {
-        setLogin(data => {
-            return {...data, [e.target.name]: e.target.value}
-        });
-    }
+    
 
   return(
     <Container>
