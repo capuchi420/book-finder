@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-
     // CHECK FOR COOKIE
     const cookie = document.cookie;
 

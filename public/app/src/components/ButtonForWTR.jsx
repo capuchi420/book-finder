@@ -41,7 +41,7 @@ export const ButtonForWTR = (props) => {
           body: JSON.stringify(dataToSend)
         }).then(response => response.json()).then(data => {
           if(data.status){
-            if(!alert('Book added')){window.location.reload();}
+            if(!alert('Book added to Want To Read list')){window.location.reload();}
           }else{
             alert(data.msg);
           }
@@ -61,7 +61,7 @@ export const ButtonForWTR = (props) => {
           body: JSON.stringify(dataToSend)
         }).then(response => response.json()).then(data => {
           if(data.status){
-            if(!alert('Book removed')){window.location.reload();}
+            if(!alert('Book removed from Want To Read list')){window.location.reload();}
           }else{
             alert(data.msg);
           }

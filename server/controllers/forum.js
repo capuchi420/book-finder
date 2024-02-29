@@ -1,5 +1,6 @@
 import { forumModel } from "../model/forum.js";
 
+// GET ALL FORUMS FUNCTION
 export const getAllForums = async (req, res) => {
     try{
         const forums = await forumModel.find();
@@ -9,6 +10,7 @@ export const getAllForums = async (req, res) => {
     }
 };
 
+// GET A SINGLE FORUM FUNCTION
 export const getAForum = async (req, res) => {
     try{
         const id = req.params._id;
@@ -19,6 +21,7 @@ export const getAForum = async (req, res) => {
     }
 };
 
+// ADD A COMMENT TO THE FORUM FUNCTION
 export const postAComment = async (req, res) => {
     try{
         const {user_id, comment, forum_id} = req.body;

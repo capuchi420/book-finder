@@ -40,7 +40,7 @@ export const ButtonForForum = (props) => {
           body: JSON.stringify(dataToSend)
         }).then(response => response.json()).then(data => {
           if(data.status){
-            if(!alert('Forum added')){window.location.reload();}
+            if(!alert('Forum added to Favorites')){window.location.reload();}
           }else{
             alert(data.msg);
           }
@@ -60,7 +60,7 @@ export const ButtonForForum = (props) => {
           body: JSON.stringify(dataToSend)
         }).then(response => response.json()).then(data => {
           if(data.status){
-            if(!alert('Forum removed')){window.location.reload();}
+            if(!alert('Forum removed from Favorites')){window.location.reload();}
           }else{
             alert(data.msg);
           }
