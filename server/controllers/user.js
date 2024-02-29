@@ -66,14 +66,15 @@ export const addWantToRead = async (req, res) => {
         let user = await userModel.findById(user_id);
 
         // CHECK IF THE BOOK IS IN OTHER LIST (READING) IF IT IS, REMOVE IT
+        let foundInReading = false;
 
         user.reading.forEach(book => {
             if(book === book_id){
                 foundInReading = true;
             }
-        })
+        });
 
-        if(foundinReading){
+        if(foundInReading){
             let update = [];
             user.reading.forEach(book => {
                 if(book !== book_id){
@@ -90,7 +91,7 @@ export const addWantToRead = async (req, res) => {
             if(book === book_id){
                 foundInRead = true;
             }
-        })
+        });
 
         if(foundInRead){
             let update = [];
@@ -261,7 +262,7 @@ export const addRead = async (req, res) => {
             user.reading = update;
         }
 
-
+        // ADD A BOOK TO THE READ LIST
         user.read.push(book_id);
 
         await userModel.replaceOne({ _id: user_id}, user);

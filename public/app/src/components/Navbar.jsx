@@ -28,8 +28,8 @@ export const Navbar = () => {
     return(
         <Container>
             <div>
-                <h4 onClick={handleLogoClick}>FindYoBook</h4>
-                <h4 onClick={handleForumsClick}>Forums</h4>
+                <h4 onClick={handleLogoClick}>Knjige</h4>
+                <h4 onClick={handleForumsClick}>Forumi</h4>
             </div>
             <i className="fa-solid fa-user" onClick={handleProfileClick}></i>
         </Container>

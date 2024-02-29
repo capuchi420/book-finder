@@ -15,7 +15,7 @@ export const Forums = () => {
   return (
     <>
         <Navbar />
-        <Header txt="Find a forum" />
+        <Header txt="Pronadji forum za svaku knjigu!" />
         <ForumsComponent />
         <Footer />
     </>

@@ -52,7 +52,7 @@ export const Login = () => {
     <Container>
         <div className="layer"></div>
       <div>
-        <h1>Welcome back to the<br />Ljubitelji knjige!</h1>
+        <h1>Dobrodosli na veb sajt<br />Ljubitelji knjige!</h1>
       </div>
       <form onSubmit={handleSubmit}>
         <p className="error">{error}</p>

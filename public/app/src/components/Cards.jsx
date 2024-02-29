@@ -8,36 +8,16 @@ export const Cards = (props) => {
 
     const [books, setBooks] = useState([]);
 
-    const [search, setSearch] = useState({
-        based: "",
-        uppercase: "",
-        lowercase: "",
-        camel: "",
-        firstletter: ""
-    });
+    const [search, setSearch] = useState("");
 
     const allBooks = books.map(book => {
         return <Card key={book._id} {...book} />
     });
 
-    // FUNCTION FOR CAMELIZE
-    function camelize(str) {
-        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
-          if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
-          return index === 0 ? match.toLowerCase() : match.toUpperCase();
-        });
-      }
-
       // HANDLE CHANGE FUNCTION
       const handleChange = (e) => {
         let value = e.target.value;
-        setSearch({
-            based: value,
-            uppercase: value.toUpperCase(),
-            lowercase: value.toLowerCase(),
-            camel: camelize(value),
-            firstletter: value.charAt(0).toUpperCase()
-        });
+        setSearch(value);
     }
 
     // HANDLE SUBMIT FUNCTION
@@ -103,14 +83,14 @@ export const Cards = (props) => {
         <main>
              {!props.page && <Form>
                 <form onSubmit={handleSubmit}>
-                    <input type="text" placeholder="find yo damn book..." onChange={handleChange} value={search.based} />
+                    <input type="text" placeholder="Pronadji svoju knjigu" onChange={handleChange} value={search.based} />
                     <button><i className="fa-solid fa-magnifying-glass"></i></button>
                 </form>
             </Form>}
             <Container id="books">
                 {!props.page ?
                     (search.based === "" ? allBooks : books.map(book => { // eslint-disable-line
-                                                                if(book.book_name.includes(search.based) || book.book_name.includes(search.uppercase) || book.book_name.includes(search.lowercase) || book.book_name.includes(search.camel) || book.book_name.includes(search.firstletter)){
+                                                                if(book.book_name.includes(search)){
                                                                     return <Card key={book._id} {...book} />;
                                                                 }})) : (props.page === 'wanttoread' ? wantToReadBooks : (props.page === 'reading' ? readingBooks : readBooks))}
             </Container>

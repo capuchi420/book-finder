@@ -51,7 +51,7 @@ export const Register = () => {
     <Container>
         <div className="layer"></div>
       <div>
-        <h1>Welcome to the<br />Ljubitelji knjige!<br />Please make an account to access the biggest book community on the internet!</h1>
+        <h1>Dobrodosli na veb sajt<br />Ljubitelji knjige!<br />Napravite nalog da bi ste pristupili nasem sajtu!</h1>
       </div>
       <form onSubmit={handleSubmit}>
         <p className="error">{error}</p>
