@@ -4,7 +4,6 @@ import cors from 'cors';
 import * as dotenv from 'dotenv';
 import { dbRoutes } from './routes/db_routes.js';
 import { userRoutes } from './routes/userRoutes.js';
-import bodyParser from 'body-parser';
 import { forumRoutes } from './routes/forumRoutes.js';
 
 dotenv.config();

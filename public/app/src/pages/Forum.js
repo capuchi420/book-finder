@@ -44,9 +44,7 @@ export const Forum = () => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(comment)
-        }).then(response => response.json()).then(data => {
-            console.log(data.forum)
-        })
+        }).then(response => response.json()).then(data => {})
       }
 
   return (
@@ -61,7 +59,7 @@ export const Forum = () => {
         </Header>
         <Form>
             <form onSubmit={handleSubmit}>
-                <input type="text" placeholder="what do you think?" name="comment" value={comment.comment} onChange={handleChange} />
+                <input type="text" placeholder="Podeli svoje misljenje" name="comment" value={comment.comment} onChange={handleChange} />
                 <button><i className="fa-solid fa-comment"></i></button>
             </form>
         </Form>

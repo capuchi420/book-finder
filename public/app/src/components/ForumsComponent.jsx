@@ -6,36 +6,16 @@ export const ForumsComponent = () => {
     // DECLARE
     const [forums, setForums] = useState([]);
 
-    const [search, setSearch] = useState({
-        based: "",
-        uppercase: "",
-        lowercase: "",
-        camel: "",
-        firstletter: ""
-    });
+    const [search, setSearch] = useState("");
 
     const allForums = forums.map(book => {
         return <ForumCard key={book._id} {...book} />
     });
 
-    // FUNCTION FOR CAMELIZE
-    function camelize(str) {
-        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
-          if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
-          return index === 0 ? match.toLowerCase() : match.toUpperCase();
-        });
-      }
-
       // HANDLE CHANGE FUNCTION
     const handleChange = (e) => {
         let value = e.target.value;
-        setSearch({
-            based: value,
-            uppercase: value.toUpperCase(),
-            lowercase: value.toLowerCase(),
-            camel: camelize(value),
-            firstletter: value.charAt(0).toUpperCase()
-        });
+        setSearch(value);
     }
 
     // HANDLE SUBMIT FUNCTION
@@ -56,13 +36,13 @@ export const ForumsComponent = () => {
     <main>
         <Form>
             <form onSubmit={handleSubmit}>
-                <input type="text" placeholder="find yo damn forum..." onChange={handleChange} value={search.based} />
+                <input type="text" placeholder="Unesi naziv foruma" onChange={handleChange} value={search.based} />
                 <button><i className="fa-solid fa-magnifying-glass"></i></button>
             </form>
         </Form>
         <Container>
-                {search.based === "" ? allForums : forums.map(forum => { /* eslint-disable-line */
-                                                                if(forum.forum_name.includes(search.based) || forum.forum_name.includes(search.uppercase) || forum.forum_name.includes(search.lowercase) || forum.forum_name.includes(search.camel) || forum.forum_name.includes(search.firstletter)){
+                {search === "" ? allForums : forums.map(forum => { /* eslint-disable-line */
+                                                                if(forum.forum_name.includes(search)){
                                                                     return <ForumCard key={forum._id} {...forum} />;
                                                                 }
                 })}

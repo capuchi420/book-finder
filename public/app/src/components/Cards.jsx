@@ -83,13 +83,13 @@ export const Cards = (props) => {
         <main>
              {!props.page && <Form>
                 <form onSubmit={handleSubmit}>
-                    <input type="text" placeholder="Pronadji svoju knjigu" onChange={handleChange} value={search.based} />
+                    <input type="text" placeholder="Unesi naziv knjige" onChange={handleChange} value={search.based} />
                     <button><i className="fa-solid fa-magnifying-glass"></i></button>
                 </form>
             </Form>}
             <Container id="books">
                 {!props.page ?
-                    (search.based === "" ? allBooks : books.map(book => { // eslint-disable-line
+                    (search === "" ? allBooks : books.map(book => { // eslint-disable-line
                                                                 if(book.book_name.includes(search)){
                                                                     return <Card key={book._id} {...book} />;
                                                                 }})) : (props.page === 'wanttoread' ? wantToReadBooks : (props.page === 'reading' ? readingBooks : readBooks))}

@@ -30,10 +30,11 @@ const Container = styled.div`
     background-color: #eadbc8;
     padding: .6rem;
     border-radius: .7rem;
+    max-width: 134.2px;
 
     div.img-holder{
         img{
-            height: 110px;
+            height: 100px;
             width: 115px;
             border-radius: .7rem;
         }
@@ -50,6 +51,8 @@ const Container = styled.div`
     }
 
     @media only screen and (min-width: 375px) and (max-width: 767px){
+        max-width: 163.2px;
+
         div.img-holder{
             img{
                 height: 139px;
@@ -59,6 +62,8 @@ const Container = styled.div`
     }
 
     @media only screen and (min-width: 1366px){
+        max-width: 211.2px;
+
         div.img-holder{
             img{
                 height: 187px;
@@ -68,6 +73,8 @@ const Container = styled.div`
     }
 
     @media only screen and (min-width: 1920px){
+        max-width: 343.2px;
+
         div.img-holder{
             img{
                 height: 319px;
